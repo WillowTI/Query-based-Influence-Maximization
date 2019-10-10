@@ -59,45 +59,45 @@ RM = /usr/bin/cmake.exe -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/f/TestCode/c++/sfmt
+CMAKE_SOURCE_DIR = /cygdrive/f/TestCode/c++/fuck
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/f/TestCode/c++/sfmt/cmake-build-debug
+CMAKE_BINARY_DIR = /cygdrive/f/TestCode/c++/fuck/cmake-build-debug
 
 #=============================================================================
-# Target rules for target CMakeFiles/sfmt.dir
+# Target rules for target CMakeFiles/fuck.dir
 
 # All Build rule for target.
-CMakeFiles/sfmt.dir/all:
-	$(MAKE) -f CMakeFiles/sfmt.dir/build.make CMakeFiles/sfmt.dir/depend
-	$(MAKE) -f CMakeFiles/sfmt.dir/build.make CMakeFiles/sfmt.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cygdrive/f/TestCode/c++/sfmt/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target sfmt"
-.PHONY : CMakeFiles/sfmt.dir/all
+CMakeFiles/fuck.dir/all:
+	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/depend
+	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target fuck"
+.PHONY : CMakeFiles/fuck.dir/all
 
 # Include target in all.
-all: CMakeFiles/sfmt.dir/all
+all: CMakeFiles/fuck.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/sfmt.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/sfmt/cmake-build-debug/CMakeFiles 3
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sfmt.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/sfmt/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/sfmt.dir/rule
+CMakeFiles/fuck.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/fuck.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/fuck.dir/rule
 
 # Convenience name for target.
-sfmt: CMakeFiles/sfmt.dir/rule
+fuck: CMakeFiles/fuck.dir/rule
 
-.PHONY : sfmt
-
-# clean rule for target.
-CMakeFiles/sfmt.dir/clean:
-	$(MAKE) -f CMakeFiles/sfmt.dir/build.make CMakeFiles/sfmt.dir/clean
-.PHONY : CMakeFiles/sfmt.dir/clean
+.PHONY : fuck
 
 # clean rule for target.
-clean: CMakeFiles/sfmt.dir/clean
+CMakeFiles/fuck.dir/clean:
+	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/clean
+.PHONY : CMakeFiles/fuck.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/fuck.dir/clean
 
 .PHONY : clean
 

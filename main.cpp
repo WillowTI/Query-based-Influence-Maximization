@@ -14,10 +14,10 @@ Graph init_graph(int argn, char **argv);
 
 
 int main(int argn, char **argv) {
-//    OutputInfo info(argn, argv);
-//    Run(argn, argv);
+    OutputInfo info(argn, argv);
+    Run(argn, argv);
 
-    Graph g = init_graph(argn, argv);
+//    Graph g = init_graph(argn, argv);
 
 
     return 0;
