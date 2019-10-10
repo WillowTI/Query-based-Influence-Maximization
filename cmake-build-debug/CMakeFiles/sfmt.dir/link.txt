@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/sfmt.dir/main.cpp.o CMakeFiles/sfmt.dir/sfmt.cpp.o  -o sfmt.exe -Wl,--out-implib,libsfmt.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
