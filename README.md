@@ -25,9 +25,14 @@ something like
 
 
 
-
-
 ## What is needed
 
 + FP-Tree data structure to optimize sampling procedure
 
++ ij-core in directed graph
+
+  
+
+## Other
+
+Try to update daily ：）
