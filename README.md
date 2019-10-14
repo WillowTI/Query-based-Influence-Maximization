@@ -12,18 +12,22 @@ something like
 
 
 
-## Current State
+## What has been done
 
-raw Influence Maximization algorithm using RRSet
++ raw Influence Maximization algorithm using RRSet
 
-Input: a directed Graph $$G$$
+   + Input: a directed Graph G
 
-Output: a number $$I$$ denoting the Max Influence of $$G$$, the induced subgraph $$G_s$$ which has Max Influence
+   + Output: a number I denoting the Max Influence of G, the induced subgraph H which has Max Influence
+
++ O(m) k-core algorithm in undirected graph
 
 
 
-## Future Work
 
-+ $$O(m)$$ k-core algorithm under undirected graph (unnecessary but help understand the ij-core algorithm under directed graph)
+
+
+## What is needed
 
 + FP-Tree data structure to optimize sampling procedure
+
