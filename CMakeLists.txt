@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.14)
-project(fuck)
+project(QIC)
 
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(.)
 
-add_executable(fuck
+add_executable(QIC
         Argument.h
         graph.h
         head.h
@@ -13,4 +13,5 @@ add_executable(fuck
         infgraph.h
         main.cpp
         sfmt.cpp
-        sfmt.h)
+        sfmt.h
+        ugraph.h)

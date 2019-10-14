@@ -48,10 +48,10 @@ RM = /usr/bin/cmake.exe -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/f/TestCode/c++/fuck
+CMAKE_SOURCE_DIR = /cygdrive/f/TestCode/c++/QIC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/f/TestCode/c++/fuck/cmake-build-debug
+CMAKE_BINARY_DIR = /cygdrive/f/TestCode/c++/QIC/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles /cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/QIC/cmake-build-debug/CMakeFiles /cygdrive/f/TestCode/c++/QIC/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/f/TestCode/c++/QIC/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named fuck
+# Target rules for targets named QIC
 
 # Build rule for target.
-fuck: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 fuck
-.PHONY : fuck
+QIC: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 QIC
+.PHONY : QIC
 
 # fast build rule for target.
-fuck/fast:
-	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/build
-.PHONY : fuck/fast
+QIC/fast:
+	$(MAKE) -f CMakeFiles/QIC.dir/build.make CMakeFiles/QIC.dir/build
+.PHONY : QIC/fast
 
 main.o: main.cpp.o
 
@@ -129,7 +129,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/QIC.dir/build.make CMakeFiles/QIC.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -138,7 +138,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/QIC.dir/build.make CMakeFiles/QIC.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -147,7 +147,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/QIC.dir/build.make CMakeFiles/QIC.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 sfmt.o: sfmt.cpp.o
@@ -156,7 +156,7 @@ sfmt.o: sfmt.cpp.o
 
 # target to build an object file
 sfmt.cpp.o:
-	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/sfmt.cpp.o
+	$(MAKE) -f CMakeFiles/QIC.dir/build.make CMakeFiles/QIC.dir/sfmt.cpp.o
 .PHONY : sfmt.cpp.o
 
 sfmt.i: sfmt.cpp.i
@@ -165,7 +165,7 @@ sfmt.i: sfmt.cpp.i
 
 # target to preprocess a source file
 sfmt.cpp.i:
-	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/sfmt.cpp.i
+	$(MAKE) -f CMakeFiles/QIC.dir/build.make CMakeFiles/QIC.dir/sfmt.cpp.i
 .PHONY : sfmt.cpp.i
 
 sfmt.s: sfmt.cpp.s
@@ -174,7 +174,7 @@ sfmt.s: sfmt.cpp.s
 
 # target to generate assembly for a file
 sfmt.cpp.s:
-	$(MAKE) -f CMakeFiles/fuck.dir/build.make CMakeFiles/fuck.dir/sfmt.cpp.s
+	$(MAKE) -f CMakeFiles/QIC.dir/build.make CMakeFiles/QIC.dir/sfmt.cpp.s
 .PHONY : sfmt.cpp.s
 
 # Help Target
@@ -184,7 +184,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... fuck"
+	@echo "... QIC"
 	@echo "... edit_cache"
 	@echo "... main.o"
 	@echo "... main.i"

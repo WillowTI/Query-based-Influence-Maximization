@@ -1,3 +1,3 @@
-/cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles/fuck.dir
-/cygdrive/f/TestCode/c++/fuck/cmake-build-debug/CMakeFiles/edit_cache.dir
+/cygdrive/f/TestCode/c++/QIC/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/cygdrive/f/TestCode/c++/QIC/cmake-build-debug/CMakeFiles/QIC.dir
+/cygdrive/f/TestCode/c++/QIC/cmake-build-debug/CMakeFiles/edit_cache.dir

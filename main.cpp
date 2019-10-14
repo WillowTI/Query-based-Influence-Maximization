@@ -3,6 +3,7 @@
 
 //#include "infgraph.h"
 #include "imm.h"
+#include "ugraph.h"
 
 #define DBG(x) do { cout<<"\e\[0;32mDEBUG: " << x << "\e[0m" << endl;} while (0)
 
@@ -14,12 +15,16 @@ Graph init_graph(int argn, char **argv);
 
 
 int main(int argn, char **argv) {
-    OutputInfo info(argn, argv);
-    Run(argn, argv);
+//    OutputInfo info(argn, argv);
+//    Run(argn, argv);
 
-//    Graph g = init_graph(argn, argv);
-
-
+    uGraph g("", "undirected.txt");
+    g.kcore();
+    vector<int> node = g.kcore_node;
+    vector<int> deg = g.kcore_deg;
+    for (int x: node) {
+        cout << x <<  " " << deg[x] << endl;
+    }
     return 0;
 }
 

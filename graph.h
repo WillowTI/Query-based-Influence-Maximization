@@ -25,7 +25,6 @@ public:
     Graph(string folder, string graph_file): folder(folder), graph_file(graph_file)
     {
         readNM();
-
         in_max = out_max = 0;
         gT = vector<vector<int>>(n);
         hasnode = vector<bool>(n, false);
