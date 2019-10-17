@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g  -Wl,--enable-auto-import CMakeFiles/QIC.dir/main.cpp.o CMakeFiles/QIC.dir/sfmt.cpp.o  -o QIC.exe -Wl,--out-implib,libQIC.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
