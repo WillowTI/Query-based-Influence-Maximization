@@ -35,4 +35,4 @@ something like
 
 ## Other
 
-Try to update daily ：）
+去考个 GRE，咕个两天
