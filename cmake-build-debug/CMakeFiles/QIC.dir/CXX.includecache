@@ -70,6 +70,12 @@ deque
 windows.h
 -
 
+/cygdrive/f/TestCode/c++/QIC/ijcore.h
+bits/stdc++.h
+/cygdrive/f/TestCode/c++/QIC/bits/stdc++.h
+graph.h
+/cygdrive/f/TestCode/c++/QIC/graph.h
+
 /cygdrive/f/TestCode/c++/QIC/imm.h
 cmath
 /cygdrive/f/TestCode/c++/QIC/cmath
@@ -93,6 +99,8 @@ imm.h
 /cygdrive/f/TestCode/c++/QIC/imm.h
 ugraph.h
 /cygdrive/f/TestCode/c++/QIC/ugraph.h
+ijcore.h
+/cygdrive/f/TestCode/c++/QIC/ijcore.h
 
 /cygdrive/f/TestCode/c++/QIC/sfmt.h
 cstdint

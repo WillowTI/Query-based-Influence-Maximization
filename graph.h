@@ -16,6 +16,7 @@ public:
     vector<int> inDeg;
     vector<int> outDeg;
     vector<vector<int>> gT;
+    vector<vector<int>> g;
     vector<vector<double>> probT;
     //当有(a, b, p)时，gT[b].add(a), probT[b].add(p)
 
@@ -26,6 +27,7 @@ public:
     {
         readNM();
         in_max = out_max = 0;
+        g = vector<vector<int>>(n);
         gT = vector<vector<int>>(n);
         hasnode = vector<bool>(n, false);
         probT = vector<vector<double>>(n);
@@ -71,6 +73,7 @@ public:
     {
         probT[b].push_back(p);
         gT[b].push_back(a);
+        g[a].push_back(b);
         inDeg[b]++;
         outDeg[a]++;
         in_max = max(in_max, inDeg[b]);

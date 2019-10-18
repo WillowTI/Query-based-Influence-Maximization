@@ -12,7 +12,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eec49d74-4ba2-49ba-8bfa-e8fa09403058" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ijcore.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/diff_i.txt" beforeDir="false" afterPath="$PROJECT_DIR$/diff_i.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/diff_j.txt" beforeDir="false" afterPath="$PROJECT_DIR$/diff_j.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/graph.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,18 +52,6 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FavoritesManager">
     <favorites_list name="sfmt" />
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>idx</find>
-      <find>uint64_t</find>
-      <find>rshift128</find>
-      <find>sfmt_gen_rand_all</find>
-      <find>sfmt_genrand_real1</find>
-      <find>hyperG</find>
-      <find>add</find>
-      <find>edge</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -128,6 +127,10 @@
       <workItem from="1571322206082" duration="1058000" />
       <workItem from="1571324728438" duration="101000" />
       <workItem from="1571325547745" duration="2650000" />
+      <workItem from="1571328303847" duration="300000" />
+      <workItem from="1571374601013" duration="6789000" />
+      <workItem from="1571386386944" duration="1093000" />
+      <workItem from="1571407431391" duration="2306000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md">
       <created>1570726179872</created>
@@ -150,7 +153,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571036631739</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="add sample data for ij-core">
+      <created>1571328394693</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1571328394693</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -179,9 +189,13 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="add README.md" />
     <MESSAGE value="workspace" />
     <MESSAGE value="rename project; add k-core in undirected graph" />
-    <option name="LAST_COMMIT_MESSAGE" value="rename project; add k-core in undirected graph" />
+    <MESSAGE value="add sample data for ij-core" />
+    <MESSAGE value="1.更新样例数据，最后增加一个度，把剩余的点全部包括进去，为了方便测试&#10;2.数据不是很好，入度出度写反了，最后结果一样，太巧合了&#10;3.Graph 类增加邻接矩阵，之前为了做 RRSet 只有反向邻接矩阵&#10;4.实现 i 轴，也就是入度，方向上的 ij-core" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.更新样例数据，最后增加一个度，把剩余的点全部包括进去，为了方便测试&#10;2.数据不是很好，入度出度写反了，最后结果一样，太巧合了&#10;3.Graph 类增加邻接矩阵，之前为了做 RRSet 只有反向邻接矩阵&#10;4.实现 i 轴，也就是入度，方向上的 ij-core" />
   </component>
 </project>

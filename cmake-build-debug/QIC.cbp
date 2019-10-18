@@ -91,6 +91,9 @@
 		<Unit filename="/cygdrive/f/TestCode/c++/QIC/head.h">
 			<Option target="QIC"/>
 		</Unit>
+		<Unit filename="/cygdrive/f/TestCode/c++/QIC/ijcore.h">
+			<Option target="QIC"/>
+		</Unit>
 		<Unit filename="/cygdrive/f/TestCode/c++/QIC/imm.h">
 			<Option target="QIC"/>
 		</Unit>

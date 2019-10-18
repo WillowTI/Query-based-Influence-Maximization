@@ -4,7 +4,7 @@
 //#include "infgraph.h"
 #include "imm.h"
 #include "ugraph.h"
-
+#include "ijcore.h"
 #define DBG(x) do { cout<<"\e\[0;32mDEBUG: " << x << "\e[0m" << endl;} while (0)
 
 using namespace std;
@@ -12,13 +12,6 @@ using namespace std;
 void Run(int argn, char **argv);
 void run_with_parameter(InfGraph &g, const Argument & arg);
 Graph init_graph(int argn, char **argv);
-void get_sample_ij_core();
-void calc_diff();
-
-
-set<int> ij_core [32][32];
-set<int> diff_j[31][31];
-set<int> diff_i[31];
 
 int main(int argn, char **argv) {
 //    OutputInfo info(argn, argv);
@@ -34,50 +27,27 @@ int main(int argn, char **argv) {
 
 
 
+    Graph g = init_graph(argn, argv);
+    calc_diff_i(g);
+    vector<int> node = ij_core_i_node;
+    vector<int> deg = ij_core_i_deg;
+    map<int, vector<int>> calc;
+    for (int x: node) {
+        calc[deg[x]].emplace_back(x);
+    }
+    map<int, vector<int>>::iterator iter;
+    for (iter = calc.begin(); iter != calc.end(); iter++) {
+        cout << iter->first << " " << iter->second.size() << endl;
+    }
+
+//    get_sample_ij_core();
+//    calc_diff();
+
+
     return 0;
 }
 
-void calc_diff() {
-    for (int i = 0; i < 31; i++) {
-        for (int j = 0; j < 31; j++) {
-            set_difference(ij_core[i][j].begin(), ij_core[i][j].end(),
-                           ij_core[i][j + 1].begin(), ij_core[i][j + 1].end(), inserter(diff_j[i][j], diff_j[i][j].begin()));
-        }
-    }
 
-    for (int i = 0; i < 31; i++) {
-        set_difference(ij_core[i][0].begin(), ij_core[i][0].end(),
-                       ij_core[i + 1][0].begin(), ij_core[i + 1][0].end(), inserter(diff_i[i], diff_i[i].begin()));
-    }
-
-//    freopen("diff_j.txt", "w", stdout);
-    for (int i = 0; i < 31; i++) {
-        for (int j = 0; j < 31; j++) {
-            cout << i << " " << j << " " << diff_j[i][j].size() << endl;
-            for (int x: diff_j[i][j]) {
-                cout << x << " ";
-            }
-            cout << endl;
-        }
-
-    }
-}
-
-void get_sample_ij_core() {
-    freopen("all_ij_core.txt", "r", stdin);
-    for (int i = 0; i < 32; i++) {
-        for (int j = 0; j < 32; j++) {
-            int i1, i2, n;
-            cin >> i1 >> i2 >> n;
-            for (int k = 0; k < n; k++) {
-                int iii;
-                cin >> iii;
-                ij_core[i][j].insert(iii);
-            }
-//            cout << i1 << " " << i2 << " " << n << endl;
-        }
-    }
-}
 
 Graph init_graph(int argn, char **argv) {
     Argument arg;
