@@ -7,6 +7,7 @@ class Graph {
 public:
     int n;//node
     int m;//edge
+    int active_n;
     int in_max;
     int out_max;
     enum InfluModel {IC, LT, CONT};
@@ -23,6 +24,8 @@ public:
     vector<bool> hasnode;
     //hasnode用来判断孤立点
 
+    vector<bool> vis;
+
     Graph(string folder, string graph_file): folder(folder), graph_file(graph_file)
     {
         readNM();
@@ -33,7 +36,9 @@ public:
         probT = vector<vector<double>>(n);
         inDeg = vector<int>(n, 0);
         outDeg = vector<int>(n, 0);
+        vis = vector<bool>(n);
         readGraph();
+        active_n = n;
         //system("sleep 10000");
     }
 

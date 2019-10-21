@@ -6,15 +6,26 @@
 #define QIC_IJCORE_H
 
 #include "bits/stdc++.h"
+#include <vector>
 #include "graph.h"
 using namespace std;
+
 set<int> ij_core [33][33];
 set<int> diff_j[32][32];
 set<int> diff_i[32];
 vector<int> ij_core_i_deg;
 vector<int> ij_core_i_node;
 
-void calc_diff() {
+vector<vector<int>> ij_core_j_deg;
+vector<vector<int>> ij_core_j_node;
+
+void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &deg, std::vector<int> &bin);
+void calc_diff_brutal();
+void get_sample_ij_core();
+void get_diff_i();
+void calc_diff(Graph g1);
+
+void calc_diff_brutal() {
     for (int i = 0; i < 32; i++) {
         for (int j = 0; j < 32; j++) {
             set_difference(ij_core[i][j].begin(), ij_core[i][j].end(),
@@ -128,6 +139,112 @@ void calc_diff_i(Graph g) {
     }
 }
 
+
+void calc_diff(Graph g1) {
+    Graph g = g1;
+    calc_diff_i(g);
+    map<int, vector<int>> calc;
+    for (int x: ij_core_i_node) {
+        calc[ij_core_i_deg[x]].emplace_back(x);
+    }
+    auto iter = calc.end();
+    iter--;
+    int max_size = iter->first;
+
+    ij_core_j_node = vector<vector<int>>(max_size);
+    ij_core_j_deg = vector<vector<int>>(max_size);
+    vector<int> bin = vector<int>(g.out_max + 1);
+    for (int i = 0; i < g.n; i++) {
+        bin[g.outDeg[i]]++;
+    }
+
+    vector<int> tmp_node = vector<int>(g.n);
+    vector<int> tmp_deg = g.outDeg;
+    vector<int> tmp_bin = bin;
+
+//    cout << g.active_n << endl;
+    delete_node(g, calc[1], tmp_deg, bin);
+//    cout << calc[1].size() << endl;
+//    cout << g.active_n;
+
+    int start = 0;
+    int num = 0;
+    for (int &i: tmp_bin) {
+        num = i;
+        i = start;
+        start += num;
+    }
+
+    vector<int> pos(g.n);
+    for (int i = 0; i < g.n; i++) {
+        if (g.vis[i]) {
+            continue;
+        }
+        pos[i] = tmp_bin[tmp_deg[i]];
+        tmp_node[pos[i]] = i;
+        tmp_bin[tmp_deg[i]]++;
+    }
+
+
+    for (int i = tmp_bin.size() - 1; i >= 1; i--) {
+        tmp_bin[i] = tmp_bin[i - 1];
+    }
+    tmp_bin[0] = 0;
+
+    for (int i = 0; i < g.n; i++) {
+        if (g.vis[i]) {
+            continue;
+        }
+        int v = tmp_node[i];
+        for (int u: g.gT[v]) {
+            if (g.vis[u]) {
+                continue;
+            }
+            if (tmp_deg[u] > tmp_deg[v]) {
+                int du = tmp_deg[u];
+                int pu = pos[u];
+                int pw = tmp_bin[du];
+                int w = tmp_node[pw];
+                if (u != w) {
+                    pos[u] = pw;
+                    pos[w] = pu;
+                    tmp_node[pu] = w;
+                    tmp_node[pw] = u;
+                }
+                tmp_bin[du]++;
+                tmp_deg[u]--;
+            }
+        }
+    }
+
+    map<int, vector<int>> new_calc;
+    for (int x: tmp_node) {
+        new_calc[tmp_deg[x]].emplace_back(x);
+    }
+    for (iter = new_calc.begin(); iter != new_calc.end(); iter++) {
+        cout << iter->first << " " << iter->second.size() << endl;
+    }
+
+}
+
+void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &deg, std::vector<int> &bin) {
+    for (int &x: vector) {
+        graph.vis[x] = true;
+    }
+
+    // remove xx->vector
+    for (int &x: vector) {
+        for (int &out: graph.gT[x]) {
+            if (!graph.vis[out]) {
+                bin[deg[out]]--;
+                deg[out]--;
+                bin[deg[out]]++;
+            }
+        }
+    }
+
+    graph.active_n -= vector.size();
+}
 
 
 

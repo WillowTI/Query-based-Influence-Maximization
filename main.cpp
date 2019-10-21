@@ -26,22 +26,22 @@ int main(int argn, char **argv) {
 //    }
 
 
-
+// 计算i轴上的core的示例
+//    Graph g = init_graph(argn, argv);
+//    calc_diff_i(g);
+//    vector<int> node = ij_core_i_node;
+//    vector<int> deg = ij_core_i_deg;
+//    map<int, vector<int>> calc;
+//    for (int x: node) {
+//        calc[deg[x]].emplace_back(x);
+//    }
+//    map<int, vector<int>>::iterator iter;
+//    for (iter = calc.begin(); iter != calc.end(); iter++) {
+//        cout << iter->first << " " << iter->second.size() << endl;
+//    }
     Graph g = init_graph(argn, argv);
-    calc_diff_i(g);
-    vector<int> node = ij_core_i_node;
-    vector<int> deg = ij_core_i_deg;
-    map<int, vector<int>> calc;
-    for (int x: node) {
-        calc[deg[x]].emplace_back(x);
-    }
-    map<int, vector<int>>::iterator iter;
-    for (iter = calc.begin(); iter != calc.end(); iter++) {
-        cout << iter->first << " " << iter->second.size() << endl;
-    }
+    calc_diff(g);
 
-//    get_sample_ij_core();
-//    calc_diff();
 
 
     return 0;
