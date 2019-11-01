@@ -221,33 +221,33 @@ void calc_diff(Graph g1) {
         if (g.vis[i]) {
             continue;
         }
-        int v = tmp_out_node[i];
-        for (int u: g.gT[v]) {
-            if (g.vis[u]) {
-                continue;
-            }
-            if (tmp_out_deg[u] > tmp_out_deg[v] && tmp_in_deg[u] > tmp_in_deg[v]) {
-                int du = tmp_out_deg[u];
-                int pu = out_pos[u];
-                int pw = tmp_out_bin[du];
-                int w = tmp_out_node[pw];
-                if (u != w) {
-                    out_pos[u] = pw;
-                    out_pos[w] = pu;
-                    tmp_out_node[pu] = w;
-                    tmp_out_node[pw] = u;
-                }
-                tmp_out_bin[du]++;
-                tmp_out_deg[u]--;
-
-
-            }
-        }
+        int v = tmp_in_node[i];
+//        for (int u: g.gT[v]) {
+//            if (g.vis[u]) {
+//                continue;
+//            }
+//            if (tmp_out_deg[u] > tmp_out_deg[v] && tmp_in_deg[u] > tmp_in_deg[v]) {
+//                int du = tmp_out_deg[u];
+//                int pu = out_pos[u];
+//                int pw = tmp_out_bin[du];
+//                int w = tmp_out_node[pw];
+//                if (u != w) {
+//                    out_pos[u] = pw;
+//                    out_pos[w] = pu;
+//                    tmp_out_node[pu] = w;
+//                    tmp_out_node[pw] = u;
+//                }
+//                tmp_out_bin[du]++;
+//                tmp_out_deg[u]--;
+//
+//
+//            }
+//        }
         for (int u: g.g[v]) {
             if (g.vis[u]) {
                 continue;
             }
-            if (tmp_out_deg[u] > tmp_out_deg[v] && tmp_in_deg[u] > tmp_in_deg[v]) {
+            if (tmp_in_deg[u] > tmp_in_deg[v]) {
                 int du = tmp_in_deg[u];
                 int pu = in_pos[u];
                 int pw = tmp_in_bin[du];
@@ -264,13 +264,13 @@ void calc_diff(Graph g1) {
         }
     }
 
-    map<int, vector<int>> new_calc;
-    for (int x: tmp_out_node) {
-        new_calc[tmp_out_deg[x]].emplace_back(x);
-    }
-    for (iter = new_calc.begin(); iter != new_calc.end(); iter++) {
-        cout << iter->first << " " << iter->second.size() << endl;
-    }
+//    map<int, vector<int>> new_calc;
+//    for (int x: tmp_out_node) {
+//        new_calc[tmp_out_deg[x]].emplace_back(x);
+//    }
+//    for (iter = new_calc.begin(); iter != new_calc.end(); iter++) {
+//        cout << iter->first << " " << iter->second.size() << endl;
+//    }
 
     cout << "----------------" << endl;
 

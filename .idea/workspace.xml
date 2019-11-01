@@ -13,8 +13,6 @@
   <component name="ChangeListManager">
     <list default="true" id="eec49d74-4ba2-49ba-8bfa-e8fa09403058" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QIC.exe.stackdump" beforeDir="false" afterPath="$PROJECT_DIR$/QIC.exe.stackdump" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ijcore.h" beforeDir="false" afterPath="$PROJECT_DIR$/ijcore.h" afterDir="false" />
     </list>
@@ -128,6 +126,8 @@
       <workItem from="1571648960341" duration="1693000" />
       <workItem from="1571660256185" duration="5233000" />
       <workItem from="1571842249909" duration="3970000" />
+      <workItem from="1572163074881" duration="594000" />
+      <workItem from="1572622702927" duration="656000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md">
       <created>1570726179872</created>
