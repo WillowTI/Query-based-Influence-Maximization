@@ -15,6 +15,8 @@ head.h
 /cygdrive/f/TestCode/c++/QIC/head.h
 sfmt.h
 /cygdrive/f/TestCode/c++/QIC/sfmt.h
+Argument.h
+/cygdrive/f/TestCode/c++/QIC/Argument.h
 
 /cygdrive/f/TestCode/c++/QIC/head.h
 sys/time.h
@@ -99,6 +101,8 @@ head.h
 /cygdrive/f/TestCode/c++/QIC/head.h
 imm.h
 /cygdrive/f/TestCode/c++/QIC/imm.h
+test.h
+/cygdrive/f/TestCode/c++/QIC/test.h
 ugraph.h
 /cygdrive/f/TestCode/c++/QIC/ugraph.h
 ijcore.h
@@ -107,6 +111,10 @@ ijcore.h
 /cygdrive/f/TestCode/c++/QIC/sfmt.h
 cstdint
 -
+
+/cygdrive/f/TestCode/c++/QIC/test.h
+graph.h
+/cygdrive/f/TestCode/c++/QIC/graph.h
 
 /cygdrive/f/TestCode/c++/QIC/ugraph.h
 head.h

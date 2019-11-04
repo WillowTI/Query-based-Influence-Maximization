@@ -14,4 +14,4 @@ add_executable(QIC
         main.cpp
         sfmt.cpp
         sfmt.h
-        ugraph.h ijcore.h)
+        ugraph.h ijcore.h test.h)

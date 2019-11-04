@@ -2,6 +2,7 @@
 #define SFMT_GRAPH_H
 #include "head.h"
 #include "sfmt.h"
+#include "Argument.h"
 using namespace std;
 class Graph {
 public:
@@ -40,6 +41,16 @@ public:
         readGraph();
         active_n = n;
         //system("sleep 10000");
+    }
+
+    Graph(int n) {
+        in_max = out_max = 0;
+        this->n = n;
+        active_n = n;
+        inDeg = vector<int>(n);
+        outDeg = vector<int>(n);
+        g = vector<vector<int>>(n);
+        gT = vector<vector<int>>(n);
     }
 
 
@@ -85,6 +96,15 @@ public:
         out_max = max(out_max, outDeg[a]);
     }
 
+    void add_edge(int a, int b) {
+        gT[b].push_back(a);
+        g[a].push_back(b);
+        inDeg[b]++;
+        outDeg[a]++;
+        in_max = max(in_max, inDeg[b]);
+        out_max = max(out_max, outDeg[a]);
+    }
+
     void readGraph()
     {
         FILE *fin = fopen((graph_file).c_str(), "r");
@@ -112,6 +132,7 @@ public:
         ASSERT(readCnt == m);
         fclose(fin);
     }
+
 };
 
 double sqr(double t)

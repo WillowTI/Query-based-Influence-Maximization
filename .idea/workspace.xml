@@ -12,9 +12,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eec49d74-4ba2-49ba-8bfa-e8fa09403058" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/subgraph_brutal.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/subgraph_calc.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/QIC.exe.stackdump" beforeDir="false" afterPath="$PROJECT_DIR$/QIC.exe.stackdump" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/depend.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.cbp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/graph.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ijcore.h" beforeDir="false" afterPath="$PROJECT_DIR$/ijcore.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nethept/graph_ic.inf" beforeDir="false" afterPath="$PROJECT_DIR$/nethept/graph_ic.inf" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -127,7 +141,11 @@
       <workItem from="1571660256185" duration="5233000" />
       <workItem from="1571842249909" duration="3970000" />
       <workItem from="1572163074881" duration="594000" />
-      <workItem from="1572622702927" duration="656000" />
+      <workItem from="1572622702927" duration="987000" />
+      <workItem from="1572623988060" duration="7018000" />
+      <workItem from="1572865678381" duration="2217000" />
+      <workItem from="1572868857429" duration="6284000" />
+      <workItem from="1572883966975" duration="1721000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md">
       <created>1570726179872</created>
@@ -201,16 +219,5 @@
     <MESSAGE value="add sample data for ij-core" />
     <MESSAGE value="1.更新样例数据，最后增加一个度，把剩余的点全部包括进去，为了方便测试&#10;2.数据不是很好，入度出度写反了，最后结果一样，太巧合了&#10;3.Graph 类增加邻接矩阵，之前为了做 RRSet 只有反向邻接矩阵&#10;4.实现 i 轴，也就是入度，方向上的 ij-core" />
     <option name="LAST_COMMIT_MESSAGE" value="1.更新样例数据，最后增加一个度，把剩余的点全部包括进去，为了方便测试&#10;2.数据不是很好，入度出度写反了，最后结果一样，太巧合了&#10;3.Graph 类增加邻接矩阵，之前为了做 RRSet 只有反向邻接矩阵&#10;4.实现 i 轴，也就是入度，方向上的 ij-core" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>42</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

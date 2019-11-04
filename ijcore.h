@@ -16,15 +16,13 @@ set<int> diff_i[32];
 vector<int> ij_core_i_deg;
 vector<int> ij_core_i_node;
 
-vector<vector<int>> ij_core_j_deg;
-vector<vector<int>> ij_core_j_node;
-
-void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, std::vector<int> &in_deg,
-        std::vector<int> &out_bin, std::vector<int> &in_bin);
+void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, std::vector<int> &out_bin);
 void calc_diff_brutal();
 void get_sample_ij_core();
 void get_diff_i();
 void calc_diff(Graph g1);
+void calc_diff_i(Graph g1);
+
 
 void calc_diff_brutal() {
     for (int i = 0; i < 32; i++) {
@@ -148,144 +146,89 @@ void calc_diff(Graph g1) {
     for (int x: ij_core_i_node) {
         calc[ij_core_i_deg[x]].emplace_back(x);
     }
-    auto iter = calc.end();
-    iter--;
-    int max_size = iter->first;
-
-    ij_core_j_node = vector<vector<int>>(max_size);
-    ij_core_j_deg = vector<vector<int>>(max_size);
-
-    vector<vector<int>> ij_core_in_node = vector<vector<int>>(max_size);
-    vector<vector<int>> ij_core_in_deg = vector<vector<int>>(max_size);
+    calc[-1] = vector<int>();
+    int max_size = 0;
+    for (auto & iter : calc) {
+        max_size = max(max_size, iter.first);
+    }
 
     vector<int> out_bin = vector<int>(g.out_max + 1);
-    vector<int> in_bin = vector<int>(g.in_max + 1);
+    vector<int> out_deg = g.outDeg;
 
     for (int i = 0; i < g.n; i++) {
-        in_bin[g.inDeg[i]]++;
         out_bin[g.outDeg[i]]++;
     }
 
-    vector<int> tmp_out_node = vector<int>(g.n);
-    vector<int> tmp_in_node = vector<int>(g.n);
-    vector<int> tmp_out_deg = g.outDeg;
-    vector<int> tmp_in_deg = g.inDeg;
+    for (auto & iter : calc) {
+        cout << iter.first + 1 << endl;
+        delete_node(g, iter.second, out_deg, out_bin);
+        vector<int> tmp_out_deg = out_deg;
+        vector<int> tmp_out_node = vector<int>(g.n);
+        vector<int> tmp_out_bin = out_bin;
 
-    delete_node(g, calc[1], tmp_out_deg, tmp_in_deg, out_bin, in_bin);
-
-    vector<int> tmp_in_bin = in_bin;
-    vector<int> tmp_out_bin = out_bin;
-
-
-    int start = 0;
-    int num = 0;
-    for (int &i: tmp_out_bin) {
-        num = i;
-        i = start;
-        start += num;
-    }
-    start = num = 0;
-    for (int &i: tmp_in_bin) {
-        num = i;
-        i = start;
-        start += num;
-    }
-
-    vector<int> out_pos(g.n);
-    vector<int> in_pos(g.n);
-    for (int i = 0; i < g.n; i++) {
-        if (g.vis[i]) {
-            continue;
+        int start = 0;
+        int num = 0;
+        for (int &i: tmp_out_bin) {
+            num = i;
+            i = start;
+            start += num;
         }
-        out_pos[i] = tmp_out_bin[tmp_out_deg[i]];
-        in_pos[i] = tmp_in_bin[tmp_in_deg[i]];
 
-        tmp_out_node[out_pos[i]] = i;
-        tmp_out_bin[tmp_out_deg[i]]++;
-        tmp_in_node[in_pos[i]] = i;
-        tmp_in_bin[tmp_in_deg[i]]++;
-    }
-
-
-    for (int i = tmp_out_bin.size() - 1; i >= 1; i--) {
-        tmp_out_bin[i] = tmp_out_bin[i - 1];
-    }
-    tmp_out_bin[0] = 0;
-    for (int i = tmp_in_bin.size() - 1; i >= 1; i--) {
-        tmp_in_bin[i] = tmp_in_bin[i - 1];
-    }
-    tmp_in_bin[0] = 0;
-
-
-    for (int i = 0; i < g.n; i++) {
-        if (g.vis[i]) {
-            continue;
-        }
-        int v = tmp_in_node[i];
-//        for (int u: g.gT[v]) {
-//            if (g.vis[u]) {
-//                continue;
-//            }
-//            if (tmp_out_deg[u] > tmp_out_deg[v] && tmp_in_deg[u] > tmp_in_deg[v]) {
-//                int du = tmp_out_deg[u];
-//                int pu = out_pos[u];
-//                int pw = tmp_out_bin[du];
-//                int w = tmp_out_node[pw];
-//                if (u != w) {
-//                    out_pos[u] = pw;
-//                    out_pos[w] = pu;
-//                    tmp_out_node[pu] = w;
-//                    tmp_out_node[pw] = u;
-//                }
-//                tmp_out_bin[du]++;
-//                tmp_out_deg[u]--;
-//
-//
-//            }
-//        }
-        for (int u: g.g[v]) {
-            if (g.vis[u]) {
+        vector<int> out_pos(g.n);
+        for (int i = 0; i < g.n; i++) {
+            if (g.vis[i]) {
                 continue;
             }
-            if (tmp_in_deg[u] > tmp_in_deg[v]) {
-                int du = tmp_in_deg[u];
-                int pu = in_pos[u];
-                int pw = tmp_in_bin[du];
-                int w = tmp_in_node[pw];
-                if (u != w) {
-                    in_pos[u] = pw;
-                    in_pos[w] = pu;
-                    tmp_in_node[pu] = w;
-                    tmp_in_node[pw] = u;
+            out_pos[i] = tmp_out_bin[tmp_out_deg[i]];//点i放在什么位置
+            tmp_out_node[out_pos[i]] = i;//把点从小到大按度排序
+            tmp_out_bin[tmp_out_deg[i]]++;//维护下一个的位置
+        }
+
+        for (int i = tmp_out_bin.size() - 1; i >= 1; i--) {
+            tmp_out_bin[i] = tmp_out_bin[i - 1];
+        }
+        tmp_out_bin[0] = 0;
+
+        for (int i = 0; i < g.n; i++) {
+            int v = tmp_out_node[i];
+            if (g.vis[v]) {
+                continue;
+            }
+            for (int u: g.gT[v]) { //访问入的邻居
+                if (g.vis[u]) {
+                    continue;
                 }
-                tmp_in_bin[du]++;
-                tmp_in_deg[u]--;
+                if (tmp_out_deg[u] > tmp_out_deg[v]) {
+                    int du = tmp_out_deg[u];
+                    int pu = out_pos[u];
+                    int pw = tmp_out_bin[du];
+                    int w = tmp_out_node[pw];
+                    if (u != w) {
+                        out_pos[u] = pw;
+                        out_pos[w] = pu;
+                        tmp_out_node[pu] = w;
+                        tmp_out_node[pw] = u;
+                    }
+                    tmp_out_bin[du]++;
+                    tmp_out_deg[u]--;
+                }
             }
         }
+        map<int, vector<int>> new_calc;
+        for (int i = 0; i < g.n; i++) {
+            if (g.vis[i]) {
+                continue;
+            }
+            new_calc[tmp_out_deg[i]].emplace_back(i);
+        }
+        for (auto x: new_calc) {
+            cout << x.first << " " << x.second.size() << endl;
+        }
+        cout << "-------------" << endl;
     }
-
-//    map<int, vector<int>> new_calc;
-//    for (int x: tmp_out_node) {
-//        new_calc[tmp_out_deg[x]].emplace_back(x);
-//    }
-//    for (iter = new_calc.begin(); iter != new_calc.end(); iter++) {
-//        cout << iter->first << " " << iter->second.size() << endl;
-//    }
-
-    cout << "----------------" << endl;
-
-    map<int, vector<int>> another_calc;
-    for (int x: tmp_in_node) {
-        another_calc[tmp_in_deg[x]].emplace_back(x);
-    }
-    for (iter = another_calc.begin(); iter != another_calc.end(); iter++) {
-        cout << iter->first << " " << iter->second.size() << endl;
-    }
-
 }
 
-void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, std::vector<int> &in_deg,
-        std::vector<int> &out_bin, std::vector<int> &in_bin) {
+void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, std::vector<int> &out_bin) {
     for (int &x: vector) {
         graph.vis[x] = true;
     }
@@ -299,15 +242,8 @@ void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, s
                 out_bin[out_deg[out]]++;
             }
         }
-        for (int &in: graph.g[x]) {
-            if (!graph.vis[in]) {
-                in_bin[in_deg[in]]--;
-                in_deg[in]--;
-                in_bin[in_deg[in]]++;
-            }
-        }
+        out_bin[out_deg[x]]--;
     }
-
     graph.active_n -= vector.size();
 }
 
