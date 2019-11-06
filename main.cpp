@@ -41,6 +41,7 @@ int main(int argn, char **argv) {
 //        cout << iter->first << " " << iter->second.size() << endl;
 //    }
     Graph g = Graph("nethept/", "nethept/graph_ic.inf");
+    freopen("hierachy.txt", "w", stdout);
     calc_diff(g);
     return 0;
 }

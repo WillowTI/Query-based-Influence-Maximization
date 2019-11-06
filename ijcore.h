@@ -159,9 +159,9 @@ void calc_diff(Graph g1) {
         out_bin[g.outDeg[i]]++;
     }
 
-    for (auto & iter : calc) {
-        cout << iter.first + 1 << endl;
-        delete_node(g, iter.second, out_deg, out_bin);
+    for (int in = -1; in < max_size; in++) {
+        vector<int> iter = calc[in];
+        delete_node(g, iter, out_deg, out_bin);
         vector<int> tmp_out_deg = out_deg;
         vector<int> tmp_out_node = vector<int>(g.n);
         vector<int> tmp_out_bin = out_bin;
@@ -221,10 +221,16 @@ void calc_diff(Graph g1) {
             }
             new_calc[tmp_out_deg[i]].emplace_back(i);
         }
-        for (auto x: new_calc) {
-            cout << x.first << " " << x.second.size() << endl;
+        auto last = new_calc.end();
+        last--;
+        int max_out = last->first;
+        for (int i = 0; i <= max_out; i++) {
+                cout << in + 1 << " " << i << " " << new_calc[i].size() << endl;
+                for (int &x: new_calc[i]) {
+                    cout << x << " ";
+                }
+                cout << endl;
         }
-        cout << "-------------" << endl;
     }
 }
 
