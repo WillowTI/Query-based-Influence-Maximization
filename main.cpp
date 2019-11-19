@@ -14,8 +14,8 @@ void Run(int argn, char **argv);
 void run_with_parameter(InfGraph &g, const Argument & arg);
 
 int main(int argn, char **argv) {
-//    OutputInfo info(argn, argv);
-//    Run(argn, argv);
+    OutputInfo info(argn, argv);
+    Run(argn, argv);
 
 //    uGraph g("", "undirected.txt");
 //    g.kcore();
@@ -40,9 +40,9 @@ int main(int argn, char **argv) {
 //    for (iter = calc.begin(); iter != calc.end(); iter++) {
 //        cout << iter->first << " " << iter->second.size() << endl;
 //    }
-    Graph g = Graph("nethept/", "nethept/graph_ic.inf");
-    freopen("hierachy.txt", "w", stdout);
-    calc_diff(g);
+//    Graph g = Graph("nethept/", "nethept/graph_ic.inf");
+//    freopen("hierachy.txt", "w", stdout);
+//    calc_diff(g);
     return 0;
 }
 

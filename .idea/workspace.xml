@@ -13,10 +13,9 @@
   <component name="ChangeListManager">
     <list default="true" id="eec49d74-4ba2-49ba-8bfa-e8fa09403058" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QIC.exe.stackdump" beforeDir="false" afterPath="$PROJECT_DIR$/QIC.exe.stackdump" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ijcore.h" beforeDir="false" afterPath="$PROJECT_DIR$/ijcore.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imm.h" beforeDir="false" afterPath="$PROJECT_DIR$/imm.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infgraph.h" beforeDir="false" afterPath="$PROJECT_DIR$/infgraph.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -137,7 +136,9 @@
       <workItem from="1572883966975" duration="1721000" />
       <workItem from="1572931367904" duration="569000" />
       <workItem from="1572940250716" duration="686000" />
-      <workItem from="1573017573385" duration="3907000" />
+      <workItem from="1573017573385" duration="4895000" />
+      <workItem from="1574135169042" duration="1099000" />
+      <workItem from="1574174061832" duration="3900000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md">
       <created>1570726179872</created>

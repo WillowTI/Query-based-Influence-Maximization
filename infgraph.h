@@ -14,6 +14,7 @@ public:
     vector<vector<int>> hyperGT;//第i次取样取到了哪些点，包括起点
     deque<int> q;//用于BFS采样
     sfmt_t sfmtSeed;
+    vector<set<int>> influence;
     set<int> seedSet;//保存最终结果，多次用到
 
     InfGraph(string folder, string graph_file): Graph(folder, graph_file)
@@ -22,13 +23,14 @@ public:
         init_hyper_graph();
         visit = vector<bool> (n);
         visit_mark = vector<int> (n);
+        influence = vector<set<int>>(n);
     }
-
 
     void init_hyper_graph(){
         hyperG = vector<vector<int>>(n);
         hyperGT.clear();
     }
+
     void build_hyper_graph_r(int64 R, const Argument & arg)
     {
         if( R > INT_MAX ){
@@ -37,13 +39,9 @@ public:
         }
         //INFO("build_hyper_graph_r", R);
 
-
-
         int prevSize = hyperGT.size();
         while ((int)hyperGT.size() <= R)
             hyperGT.push_back( vector<int>() );
-
-
 
         vector<int> random_number;
         for (int i = 0; i < R; i++)
@@ -73,19 +71,15 @@ public:
     }
 
     /*
- * BFS starting from one node
- */
+     * BFS starting from one node
+     */
 
     int BuildHypergraphNode(int uStart, int hyperiiid)
     {
-
-
         int n_visit_edge = 1;
         ASSERT((int)hyperGT.size() > hyperiiid);
         hyperGT[hyperiiid].push_back(uStart);
-
         int n_visit_mark = 0;
-
         q.clear();
         q.push_back(uStart);
         ASSERT(n_visit_mark < n);
@@ -93,7 +87,6 @@ public:
         visit[uStart] = true;
         while (!q.empty())
         {
-
             int expand = q.front();
             q.pop_front();
             if (influModel == IC)
@@ -114,6 +107,7 @@ public:
                         ASSERT(n_visit_mark < n);
                         visit_mark[n_visit_mark++] = v;
                         visit[v] = true;
+                        influence[v].emplace(uStart);
                     }
                     q.push_back(v);
                     ASSERT((int)hyperGT.size() > hyperiiid);
@@ -162,7 +156,7 @@ public:
     //选出前k个出现次数最多的点
     //统计各个点在采样中出现的次数，保存在degree中
     //每次选出出现次数最大的点，在采样集中把这个点出现的那一条采样删去
-    //在degeree中把一同出现的点次数减一
+    //在degree中把一同出现的点次数减一
     void build_seedset(int k)
     {
         Counter cnt(1);
@@ -196,9 +190,9 @@ public:
         }
         TRACE(seedSet);
     }
+    //原图节点总个数 * 最终结果的点在多少个采样中出现 / 总采样个数
     double InfluenceHyperGraph()
     {
-
         set<int> s;
         TRACE(seedSet);
         for (auto t : seedSet)
@@ -210,6 +204,20 @@ public:
         }
         double inf = (double)n * s.size() / hyperGT.size();
         return inf;
+    }
+
+    //计算 seedSet 的影响力
+    //根据采样的结果，seedSet 中所有点能影响到的点的数量
+    int Influence_IC() {
+        if (seedSet.empty()) {
+            return 0;
+        }
+        set<int> influenced;
+        for (auto & x: seedSet) {
+            set_union(influenced.begin(), influenced.end(), influence[x].begin(),
+                    influence[x].end(), inserter(influenced, influenced.begin()));
+        }
+        return influenced.size();
     }
 
 };

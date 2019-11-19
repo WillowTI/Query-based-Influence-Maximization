@@ -97,7 +97,7 @@ public:
         cout << endl;
 
         cout << "influence:" << endl;
-        cout << g.InfluenceHyperGraph() << endl;
+        cout << g.Influence_IC() << endl;
     }
 
 };
