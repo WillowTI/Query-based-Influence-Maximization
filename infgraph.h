@@ -207,8 +207,8 @@ public:
     }
 
     //计算 seedSet 的影响力
-    //根据采样的结果，seedSet 中所有点能影响到的点的数量
-    int Influence_IC() {
+    //根据采样的结果，seedSet 中所有点能影响到的点的数量 / 采样次数
+    double Influence_IC() {
         if (seedSet.empty()) {
             return 0;
         }
@@ -217,7 +217,8 @@ public:
             set_union(influenced.begin(), influenced.end(), influence[x].begin(),
                     influence[x].end(), inserter(influenced, influenced.begin()));
         }
-        return influenced.size();
+        cout << hyperGT.size() << endl;
+        return (double)influenced.size() / hyperGT.size();
     }
 
 };
