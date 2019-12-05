@@ -15,7 +15,7 @@ set<int> diff_j[32][32];
 set<int> diff_i[32];
 vector<int> tmp_ij_core_i_deg;
 vector<int> tmp_ij_core_i_node;
-map<pair<int, int>, vector<int>> ij_core_all_node;
+map<pair<int, int>, set<int>> ij_core_all_node;
 map<int, vector<int>> ij_core_i_node;
 int max_i = 0;
 vector<int> max_j;
@@ -150,7 +150,6 @@ void calc_diff(Graph g1) {
         ij_core_i_node[tmp_ij_core_i_deg[x]].emplace_back(x);
     }
     ij_core_i_node[-1] = vector<int>();
-//    ij_core_all_node = vector<vector<vector<int>>>(ij_core_i_node.size());
     for (auto & iter : ij_core_i_node) {
         max_i = max(max_i, iter.first);
     }
@@ -216,20 +215,13 @@ void calc_diff(Graph g1) {
                 }
             }
         }
-        int tmp_size = -1;
-        for (int i = 0; i < g.n; i++) {
-            if (g.vis[i]) {
-                continue;
-            }
-            tmp_size = max(tmp_size, tmp_out_deg[i]);
-        }
         int tmp_max = -1;
         for (int i = 0; i < g.n; i++) {
             if (g.vis[i]) {
                 continue;
             }
             tmp_max = max(tmp_max, tmp_out_deg[i]);
-            ij_core_all_node[make_pair(in + 1, tmp_out_deg[i])].emplace_back(i);
+            ij_core_all_node[make_pair(in + 1, tmp_out_deg[i])].emplace(i);
         }
         max_j.emplace_back(tmp_max);
     }

@@ -11,6 +11,7 @@ public:
     int active_n;
     int in_max;
     int out_max;
+    int budget;
     enum InfluModel {IC, LT, CONT};
     string folder;
     string graph_file;
@@ -20,6 +21,7 @@ public:
     vector<vector<int>> gT;
     vector<vector<int>> g;
     vector<vector<double>> probT;
+    set<int> query;
     //当有(a, b, p)时，gT[b].add(a), probT[b].add(p)
 
     vector<bool> hasnode;
@@ -78,6 +80,20 @@ public:
             {
                 m = atoi(s.substr(2).c_str());
                 continue;
+            }
+            if (s.substr(0, 7) == "budget=")
+            {
+                budget = atoi(s.substr(7).c_str());
+                continue;
+            }
+            if (s.substr(0, 6) == "query=")
+            {
+                string query_num = s.substr(6);
+                string x = ";";
+                vector<string> splitResult = split(query_num, x);
+                for (int i = 0; i < splitResult.size(); i++) {
+                    query.emplace(stoi(splitResult[i]));
+                }
             }
             ASSERT(false);
         }

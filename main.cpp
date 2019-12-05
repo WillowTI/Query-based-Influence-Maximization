@@ -13,9 +13,11 @@ using namespace std;
 void Run(int argn, char **argv);
 void run_with_parameter(InfGraph &g, const Argument & arg);
 
+vector<set<int>> get_candidate(Graph &graph, set<int> query);
+
 int main(int argn, char **argv) {
-//    OutputInfo info(argn, argv);
-//    Run(argn, argv);
+    OutputInfo info(argn, argv);
+    Run(argn, argv);
 
 //    uGraph g("", "undirected.txt");
 //    g.kcore();
@@ -40,15 +42,18 @@ int main(int argn, char **argv) {
 //    for (iter = calc.begin(); iter != calc.end(); iter++) {
 //        cout << iter->first << " " << iter->second.size() << endl;
 //    }
-    Graph g = Graph("nethept/", "nethept/graph_ic.inf");
+//    Graph g = Graph("nethept/", "nethept/graph_ic.inf");
 //    freopen("hierachy.txt", "w", stdout);
-    calc_diff(g);
-    for (int i = 0; i < max_i; i++) {
-        for (int j = 0; j < max_j[i]; j++) {
-            cout << i << " " << j << endl;
-            cout << ij_core_all_node[make_pair(i, j)].size() << endl;
-        }
-    }
+//    calc_diff(g);
+//    for (int i = 0; i <= max_i; i++) {
+//        for (int j = 0; j <= max_j[i]; j++) {
+//            cout << i << " " << j << endl;
+//            cout << ij_core_all_node[make_pair(i, j)].size() << endl;
+//        }
+//    }
+//    for (int i = 0; i <= max_i; i++) {
+//        cout << ij_core_all_node[]
+//    }
     return 0;
 }
 
@@ -89,7 +94,9 @@ void Run(int argn, char **argv) {
         ASSERT(false);
     }
     InfGraph g(arg.dataset, graph_file);
-
+    for (int x: g.query) {
+        cout << x << endl;
+    }
 
     if (arg.model == "IC")
         g.setInfuModel(InfGraph::IC);
@@ -104,7 +111,7 @@ void Run(int argn, char **argv) {
 
     INFO(arg.T);
 
-    run_with_parameter(g, arg);
+//    run_with_parameter(g, arg);
 
 }
 
@@ -113,7 +120,13 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-    Imm::InfluenceMaximize(g, arg);
+//    Imm::InfluenceMaximize(g, arg);
+    vector<set<int>> candidate;
+    candidate = get_candidate(g, set<int>());
+}
 
+vector<set<int>> get_candidate(Graph &graph, set<int> query) {
+    calc_diff(graph);
 
+    return vector<set<int>>();
 }

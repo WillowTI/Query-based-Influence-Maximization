@@ -13,14 +13,13 @@
   <component name="ChangeListManager">
     <list default="true" id="eec49d74-4ba2-49ba-8bfa-e8fa09403058" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QIC.exe.stackdump" beforeDir="false" afterPath="$PROJECT_DIR$/QIC.exe.stackdump" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/graph.h" beforeDir="false" afterPath="$PROJECT_DIR$/graph.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/head.h" beforeDir="false" afterPath="$PROJECT_DIR$/head.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ijcore.h" beforeDir="false" afterPath="$PROJECT_DIR$/ijcore.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/imm.h" beforeDir="false" afterPath="$PROJECT_DIR$/imm.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infgraph.h" beforeDir="false" afterPath="$PROJECT_DIR$/infgraph.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nethept/attribute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/nethept/attribute.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,6 +153,7 @@
       <workItem from="1575519242159" duration="664000" />
       <workItem from="1575521347256" duration="12000" />
       <workItem from="1575521383837" duration="8309000" />
+      <workItem from="1575555949113" duration="3717000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md">
       <created>1570726179872</created>
@@ -233,22 +233,26 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="321" y="70" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.680@0.0.1280.680" timestamp="1575521353174" />
-    <state width="1237" height="163" key="GridCell.Tab.0.bottom" timestamp="1575539582870">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1877" height="261" key="GridCell.Tab.0.bottom" timestamp="1575563635138">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="163" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1575539582870" />
-    <state width="1237" height="163" key="GridCell.Tab.0.center" timestamp="1575539582869">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1877" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1575563635138" />
+    <state width="1877" height="261" key="GridCell.Tab.0.center" timestamp="1575563635135">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="163" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1575539582869" />
-    <state width="1237" height="163" key="GridCell.Tab.0.left" timestamp="1575539582869">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1877" height="261" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1575563635135" />
+    <state width="1877" height="261" key="GridCell.Tab.0.left" timestamp="1575563635135">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="163" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1575539582869" />
-    <state width="1237" height="163" key="GridCell.Tab.0.right" timestamp="1575539582869">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1877" height="261" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1575563635135" />
+    <state width="1877" height="261" key="GridCell.Tab.0.right" timestamp="1575563635136">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1237" height="163" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1575539582869" />
+    <state width="1877" height="261" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1575563635136" />
     <state width="1237" height="163" key="GridCell.Tab.1.bottom" timestamp="1575539582870">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -265,5 +269,9 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state width="1237" height="163" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1575539582870" />
+    <state x="680" y="166" key="refactoring.ChangeSignatureDialog" timestamp="1575562397760">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="680" y="166" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1575562397760" />
   </component>
 </project>
