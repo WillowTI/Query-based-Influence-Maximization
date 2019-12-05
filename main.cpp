@@ -14,8 +14,8 @@ void Run(int argn, char **argv);
 void run_with_parameter(InfGraph &g, const Argument & arg);
 
 int main(int argn, char **argv) {
-    OutputInfo info(argn, argv);
-    Run(argn, argv);
+//    OutputInfo info(argn, argv);
+//    Run(argn, argv);
 
 //    uGraph g("", "undirected.txt");
 //    g.kcore();
@@ -40,9 +40,15 @@ int main(int argn, char **argv) {
 //    for (iter = calc.begin(); iter != calc.end(); iter++) {
 //        cout << iter->first << " " << iter->second.size() << endl;
 //    }
-//    Graph g = Graph("nethept/", "nethept/graph_ic.inf");
+    Graph g = Graph("nethept/", "nethept/graph_ic.inf");
 //    freopen("hierachy.txt", "w", stdout);
-//    calc_diff(g);
+    calc_diff(g);
+    for (int i = 0; i < max_i; i++) {
+        for (int j = 0; j < max_j[i]; j++) {
+            cout << i << " " << j << endl;
+            cout << ij_core_all_node[make_pair(i, j)].size() << endl;
+        }
+    }
     return 0;
 }
 
@@ -109,5 +115,5 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
 
     Imm::InfluenceMaximize(g, arg);
 
-//    cout << g.in_max << " " << g.out_max << endl;
+
 }

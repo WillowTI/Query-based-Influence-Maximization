@@ -10,11 +10,11 @@ private:
     vector<bool> visit;
     vector<int> visit_mark;
 public:
-    vector<vector<int>> hyperG;//某个点在哪些次取样出现
-    vector<vector<int>> hyperGT;//第i次取样取到了哪些点，包括起点
+    vector<set<int>> hyperG;//某个点在哪些次取样出现
+    vector<set<int>> hyperGT;//第i次取样取到了哪些点，包括起点
     deque<int> q;//用于BFS采样
     sfmt_t sfmtSeed;
-    vector<set<int>> influence;
+    vector<set<int>> influence;//点i能激活哪些点
     set<int> seedSet;//保存最终结果，多次用到
 
     InfGraph(string folder, string graph_file): Graph(folder, graph_file)
@@ -27,7 +27,7 @@ public:
     }
 
     void init_hyper_graph(){
-        hyperG = vector<vector<int>>(n);
+        hyperG = vector<set<int>>(n);
         hyperGT.clear();
     }
 
@@ -41,7 +41,7 @@ public:
 
         int prevSize = hyperGT.size();
         while ((int)hyperGT.size() <= R)
-            hyperGT.push_back( vector<int>() );
+            hyperGT.emplace_back( set<int>() );
 
         vector<int> random_number;
         for (int i = 0; i < R; i++)
@@ -63,7 +63,7 @@ public:
         {
             for (int t : hyperGT[i])
             {
-                hyperG[t].push_back(i);
+                hyperG[t].emplace(i);
                 //hyperG.addElement(t, i);
                 totAddedElement++;
             }
@@ -78,7 +78,7 @@ public:
     {
         int n_visit_edge = 1;
         ASSERT((int)hyperGT.size() > hyperiiid);
-        hyperGT[hyperiiid].push_back(uStart);
+        hyperGT[hyperiiid].emplace(uStart);
         int n_visit_mark = 0;
         q.clear();
         q.push_back(uStart);
@@ -111,7 +111,7 @@ public:
                     }
                     q.push_back(v);
                     ASSERT((int)hyperGT.size() > hyperiiid);
-                    hyperGT[hyperiiid].push_back(v);
+                    hyperGT[hyperiiid].emplace(v);
                 }
             }
             else if (influModel == LT)
@@ -139,7 +139,7 @@ public:
                     }
                     q.push_back(v);
                     ASSERT((int)hyperGT.size() > hyperiiid);
-                    hyperGT[hyperiiid].push_back(v);
+                    hyperGT[hyperiiid].emplace(v);
                     break;
                 }
             }
@@ -208,7 +208,7 @@ public:
 
     //计算 seedSet 的影响力
     //根据采样的结果，seedSet 中所有点能影响到的点的数量 / 采样次数
-    double Influence_IC() {
+    double Influence_IC_activate() {
         if (seedSet.empty()) {
             return 0;
         }
@@ -217,8 +217,47 @@ public:
             set_union(influenced.begin(), influenced.end(), influence[x].begin(),
                     influence[x].end(), inserter(influenced, influenced.begin()));
         }
-        cout << hyperGT.size() << endl;
-        return (double)influenced.size() / hyperGT.size();
+        set_union(influenced.begin(), influenced.end(), seedSet.begin(), seedSet.end(),
+                inserter(influenced, influenced.begin()));
+        return (double)influenced.size() / n;
+    }
+
+    double Influence_IC_activate(set<int> seedSet) {
+        if (seedSet.empty()) {
+            return 0;
+        }
+        set<int> influenced;
+        for (auto & x: seedSet) {
+            set_union(influenced.begin(), influenced.end(), influence[x].begin(),
+                      influence[x].end(), inserter(influenced, influenced.begin()));
+        }
+        set_union(influenced.begin(), influenced.end(), seedSet.begin(), seedSet.end(),
+                  inserter(influenced, influenced.begin()));
+        return (double)influenced.size() / n;
+    }
+
+    double Influence_IC_RRSet() {
+        if (seedSet.empty()) {
+            return 0;
+        }
+        set<int> sample;
+        for (auto & x: seedSet) {
+            set_union(sample.begin(), sample.end(),
+                    hyperG[x].begin(), hyperG[x].end(), inserter(sample, sample.begin()));
+        }
+        return (double)sample.size() / hyperGT.size();
+    }
+
+    double Influence_IC_RRSet(set<int> seedSet) {
+        if (seedSet.empty()) {
+            return 0;
+        }
+        set<int> sample;
+        for (auto & x: seedSet) {
+            set_union(sample.begin(), sample.end(),
+                      hyperG[x].begin(), hyperG[x].end(), inserter(sample, sample.begin()));
+        }
+        return (double)sample.size() / hyperGT.size();
     }
 
 };

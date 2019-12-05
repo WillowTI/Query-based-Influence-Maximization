@@ -13,8 +13,12 @@ using namespace std;
 set<int> ij_core [33][33];
 set<int> diff_j[32][32];
 set<int> diff_i[32];
-vector<int> ij_core_i_deg;
-vector<int> ij_core_i_node;
+vector<int> tmp_ij_core_i_deg;
+vector<int> tmp_ij_core_i_node;
+map<pair<int, int>, vector<int>> ij_core_all_node;
+map<int, vector<int>> ij_core_i_node;
+int max_i = 0;
+vector<int> max_j;
 
 void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, std::vector<int> &out_bin);
 void calc_diff_brutal();
@@ -90,9 +94,9 @@ void get_diff_i() {
 
 // 计算 i，也就是入度方向上的 core
 void calc_diff_i(Graph g) {
-    ij_core_i_node = vector<int>(g.n, 0);
+    tmp_ij_core_i_node = vector<int>(g.n, 0);
     vector<int> bin(g.in_max + 1, 0);
-    ij_core_i_deg = g.inDeg;
+    tmp_ij_core_i_deg = g.inDeg;
     for (int i = 0; i < g.n; i++) {
         bin[g.inDeg[i]]++;
     }
@@ -108,7 +112,7 @@ void calc_diff_i(Graph g) {
     vector<int> pos(g.n);
     for (int i = 0; i < g.n; i++) {
         pos[i] = bin[g.inDeg[i]];
-        ij_core_i_node[pos[i]] = i;
+        tmp_ij_core_i_node[pos[i]] = i;
         bin[g.inDeg[i]]++;
     }
 
@@ -118,21 +122,21 @@ void calc_diff_i(Graph g) {
     bin[0] = 0;
 
     for (int i = 0; i < g.n; i++) {
-        int v = ij_core_i_node[i];
+        int v = tmp_ij_core_i_node[i];
         for (int u: g.g[v]) {
-            if (ij_core_i_deg[u] > ij_core_i_deg[v]) {
-                int du = ij_core_i_deg[u];
+            if (tmp_ij_core_i_deg[u] > tmp_ij_core_i_deg[v]) {
+                int du = tmp_ij_core_i_deg[u];
                 int pu = pos[u];
                 int pw = bin[du];
-                int w = ij_core_i_node[pw];
+                int w = tmp_ij_core_i_node[pw];
                 if (u != w) {
                     pos[u] = pw;
                     pos[w] = pu;
-                    ij_core_i_node[pu] = w;
-                    ij_core_i_node[pw] = u;
+                    tmp_ij_core_i_node[pu] = w;
+                    tmp_ij_core_i_node[pw] = u;
                 }
                 bin[du]++;
-                ij_core_i_deg[u]--;
+                tmp_ij_core_i_deg[u]--;
             }
         }
     }
@@ -142,16 +146,14 @@ void calc_diff_i(Graph g) {
 void calc_diff(Graph g1) {
     Graph g = g1;
     calc_diff_i(g);
-    map<int, vector<int>> calc;
-    for (int x: ij_core_i_node) {
-        calc[ij_core_i_deg[x]].emplace_back(x);
+    for (int x: tmp_ij_core_i_node) {
+        ij_core_i_node[tmp_ij_core_i_deg[x]].emplace_back(x);
     }
-    calc[-1] = vector<int>();
-    int max_size = 0;
-    for (auto & iter : calc) {
-        max_size = max(max_size, iter.first);
+    ij_core_i_node[-1] = vector<int>();
+//    ij_core_all_node = vector<vector<vector<int>>>(ij_core_i_node.size());
+    for (auto & iter : ij_core_i_node) {
+        max_i = max(max_i, iter.first);
     }
-
     vector<int> out_bin = vector<int>(g.out_max + 1);
     vector<int> out_deg = g.outDeg;
 
@@ -159,8 +161,8 @@ void calc_diff(Graph g1) {
         out_bin[g.outDeg[i]]++;
     }
 
-    for (int in = -1; in < max_size; in++) {
-        vector<int> iter = calc[in];
+    for (int in = -1; in < max_i; in++) {
+        vector<int> iter = ij_core_i_node[in];
         delete_node(g, iter, out_deg, out_bin);
         vector<int> tmp_out_deg = out_deg;
         vector<int> tmp_out_node = vector<int>(g.n);
@@ -214,23 +216,22 @@ void calc_diff(Graph g1) {
                 }
             }
         }
-        map<int, vector<int>> new_calc;
+        int tmp_size = -1;
         for (int i = 0; i < g.n; i++) {
             if (g.vis[i]) {
                 continue;
             }
-            new_calc[tmp_out_deg[i]].emplace_back(i);
+            tmp_size = max(tmp_size, tmp_out_deg[i]);
         }
-        auto last = new_calc.end();
-        last--;
-        int max_out = last->first;
-        for (int i = 0; i <= max_out; i++) {
-                cout << in + 1 << " " << i << " " << new_calc[i].size() << endl;
-                for (int &x: new_calc[i]) {
-                    cout << x << " ";
-                }
-                cout << endl;
+        int tmp_max = -1;
+        for (int i = 0; i < g.n; i++) {
+            if (g.vis[i]) {
+                continue;
+            }
+            tmp_max = max(tmp_max, tmp_out_deg[i]);
+            ij_core_all_node[make_pair(in + 1, tmp_out_deg[i])].emplace_back(i);
         }
+        max_j.emplace_back(tmp_max);
     }
 }
 

@@ -97,7 +97,7 @@ public:
         cout << endl;
 
         cout << "influence:" << endl;
-        cout << g.Influence_IC() << endl;
+        cout << g.Influence_IC_RRSet() << endl;
     }
 
 };
