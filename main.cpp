@@ -13,7 +13,7 @@ using namespace std;
 void Run(int argn, char **argv);
 void run_with_parameter(InfGraph &g, const Argument & arg);
 
-vector<set<int>> get_candidate(Graph &graph, set<int> query);
+vector<set<int>> get_candidate(Graph &graph);
 
 int main(int argn, char **argv) {
     OutputInfo info(argn, argv);
@@ -94,10 +94,6 @@ void Run(int argn, char **argv) {
         ASSERT(false);
     }
     InfGraph g(arg.dataset, graph_file);
-    for (int x: g.query) {
-        cout << x << endl;
-    }
-
     if (arg.model == "IC")
         g.setInfuModel(InfGraph::IC);
     else if (arg.model == "LT")
@@ -111,7 +107,7 @@ void Run(int argn, char **argv) {
 
     INFO(arg.T);
 
-//    run_with_parameter(g, arg);
+    run_with_parameter(g, arg);
 
 }
 
@@ -122,11 +118,43 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
 
 //    Imm::InfluenceMaximize(g, arg);
     vector<set<int>> candidate;
-    candidate = get_candidate(g, set<int>());
+    candidate = get_candidate(g);
 }
 
-vector<set<int>> get_candidate(Graph &graph, set<int> query) {
+vector<set<int>> get_candidate(Graph &graph) {
+    vector<set<int>> candidate = vector<set<int>>();
     calc_diff(graph);
-
-    return vector<set<int>>();
+    set<int> all_node;
+    for (int i = 0; i < graph.n; i++) {
+        all_node.emplace(i);
+    }
+    int degeneracy = 0;
+    for (int i = -1; i < max_i; i++) {
+        set<int> i_node = ij_core_i_node[i];
+        if (cover(graph.query, i_node)) {
+            break;
+        }
+        set<int> tmp;
+        set_difference(all_node.begin(), all_node.end(), i_node.begin(), i_node.end(),
+                inserter(tmp, tmp.begin()));
+        all_node = tmp;
+        for (int j = 0; j <= max_j[i + 1]; j++) {
+            set<int> tmp_result;
+            set<int> j_node = ij_core_all_node[make_pair(i + 1, j)];
+            set_difference(tmp.begin(), tmp.end(), j_node.begin(), j_node.end(), inserter(tmp_result, tmp_result.begin()));
+            tmp = tmp_result;
+            if (i + j + 1 == degeneracy) {
+                candidate.emplace_back(tmp);
+            } else if (i + j + 1 > degeneracy) {
+                degeneracy = i + j + 1;
+                candidate.clear();
+                candidate.emplace_back(tmp);
+            }
+            degeneracy = max(degeneracy, i + j + 1);
+            if (cover(graph.query, j_node)) {
+                break;
+            }
+        }
+    }
+    return candidate;
 }

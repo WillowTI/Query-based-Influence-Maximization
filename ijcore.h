@@ -16,11 +16,11 @@ set<int> diff_i[32];
 vector<int> tmp_ij_core_i_deg;
 vector<int> tmp_ij_core_i_node;
 map<pair<int, int>, set<int>> ij_core_all_node;
-map<int, vector<int>> ij_core_i_node;
+map<int, set<int>> ij_core_i_node;
 int max_i = 0;
 vector<int> max_j;
 
-void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, std::vector<int> &out_bin);
+void delete_node(Graph &graph, set<int> &s, std::vector<int> &out_deg, std::vector<int> &out_bin);
 void calc_diff_brutal();
 void get_sample_ij_core();
 void get_diff_i();
@@ -147,9 +147,9 @@ void calc_diff(Graph g1) {
     Graph g = g1;
     calc_diff_i(g);
     for (int x: tmp_ij_core_i_node) {
-        ij_core_i_node[tmp_ij_core_i_deg[x]].emplace_back(x);
+        ij_core_i_node[tmp_ij_core_i_deg[x]].emplace(x);
     }
-    ij_core_i_node[-1] = vector<int>();
+    ij_core_i_node[-1] = set<int>();
     for (auto & iter : ij_core_i_node) {
         max_i = max(max_i, iter.first);
     }
@@ -160,8 +160,8 @@ void calc_diff(Graph g1) {
         out_bin[g.outDeg[i]]++;
     }
 
-    for (int in = -1; in < max_i; in++) {
-        vector<int> iter = ij_core_i_node[in];
+    for (int in = -1; in <= max_i; in++) {
+        set<int> iter = ij_core_i_node[in];
         delete_node(g, iter, out_deg, out_bin);
         vector<int> tmp_out_deg = out_deg;
         vector<int> tmp_out_node = vector<int>(g.n);
@@ -227,13 +227,13 @@ void calc_diff(Graph g1) {
     }
 }
 
-void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, std::vector<int> &out_bin) {
-    for (int &x: vector) {
+void delete_node(Graph &graph, set<int> &s, std::vector<int> &out_deg, std::vector<int> &out_bin) {
+    for (int x: s) {
         graph.vis[x] = true;
     }
 
     // remove xx->vector
-    for (int &x: vector) {
+    for (int x: s) {
         for (int &out: graph.gT[x]) {
             if (!graph.vis[out]) {
                 out_bin[out_deg[out]]--;
@@ -243,7 +243,7 @@ void delete_node(Graph &graph, vector<int> &vector, std::vector<int> &out_deg, s
         }
         out_bin[out_deg[x]]--;
     }
-    graph.active_n -= vector.size();
+    graph.active_n -= s.size();
 }
 
 
