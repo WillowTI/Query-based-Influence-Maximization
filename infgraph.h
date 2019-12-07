@@ -12,6 +12,7 @@ private:
 public:
     vector<set<int>> hyperG;//某个点在哪些次取样出现
     vector<set<int>> hyperGT;//第i次取样取到了哪些点，包括起点
+    vector<int> sample_deg;
     deque<int> q;//用于BFS采样
     sfmt_t sfmtSeed;
     vector<set<int>> influence;//点i能激活哪些点
@@ -24,6 +25,7 @@ public:
         visit = vector<bool> (n);
         visit_mark = vector<int> (n);
         influence = vector<set<int>>(n);
+        sample_deg = vector<int>(n);
     }
 
     void init_hyper_graph(){

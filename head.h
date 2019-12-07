@@ -286,6 +286,12 @@ vector<string> split(const string &s, const string &seperator){
     return result;
 }
 
+bool intersect(const set<int>& s1, const set<int>& s2) {
+    set<int> tmp;
+    set_intersection(s1.begin(), s1.end(), s2.begin(), s2.end(), inserter(tmp, tmp.begin()));
+    return !tmp.empty();
+}
+
 bool cover(const set<int>& s1, const set<int>& s2) {
     set<int> tmp;
     set_intersection(s1.begin(), s1.end(), s2.begin(), s2.end(), inserter(tmp, tmp.begin()));

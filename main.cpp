@@ -15,51 +15,15 @@ void run_with_parameter(InfGraph &g, const Argument & arg);
 
 vector<set<int>> get_candidate(Graph &graph);
 
+void influence_max(set<int> &subgraph, InfGraph &graph);
+
+int choose_least_infleuent_node(const set<int>& non_query, vector<int> sample_deg);
+
 int main(int argn, char **argv) {
     OutputInfo info(argn, argv);
     Run(argn, argv);
-
-//    uGraph g("", "undirected.txt");
-//    g.kcore();
-//    vector<int> node = g.kcore_node;
-//    vector<int> deg = g.kcore_deg;
-//    for (int x: node) {
-//        cout << x <<  " " << deg[x] << endl;
-//    }
-
-
-// 计算i轴上的core的示例
-//    Graph g = init_graph(argn, argv);
-//    calc_diff_i(g);
-//    vector<int> node = ij_core_i_node;
-//    vector<int> deg = ij_core_i_deg;
-//    map<int, vector<int>> calc;
-//    for (int i = 0; i < g.n; i++) {
-//        calc[deg[i]].emplace_back(i);
-//    }
-//    cout << endl;
-//    map<int, vector<int>>::iterator iter;
-//    for (iter = calc.begin(); iter != calc.end(); iter++) {
-//        cout << iter->first << " " << iter->second.size() << endl;
-//    }
-//    Graph g = Graph("nethept/", "nethept/graph_ic.inf");
-//    freopen("hierachy.txt", "w", stdout);
-//    calc_diff(g);
-//    for (int i = 0; i <= max_i; i++) {
-//        for (int j = 0; j <= max_j[i]; j++) {
-//            cout << i << " " << j << endl;
-//            cout << ij_core_all_node[make_pair(i, j)].size() << endl;
-//        }
-//    }
-//    for (int i = 0; i <= max_i; i++) {
-//        cout << ij_core_all_node[]
-//    }
     return 0;
 }
-
-
-
-
 
 void Run(int argn, char **argv) {
     Argument arg;
@@ -116,9 +80,70 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-//    Imm::InfluenceMaximize(g, arg);
+    Imm::InfluenceMaximize(g, arg);//用于采样
+
+    //获取候选子图
     vector<set<int>> candidate;
     candidate = get_candidate(g);
+    set<int> ans;
+    double max_influence = 0.0;
+    //遍历所有候选子图，分别删除影响力最低的点，直至size不超过budget，选择影响力最大的点集作为最终结果
+    for (auto subgraph: candidate) {
+        influence_max(subgraph, g);//subgraph在这个函数中被改变
+        double tmp_influence = g.Influence_IC_RRSet(subgraph);
+        if (tmp_influence > max_influence) {
+            max_influence = tmp_influence;
+            ans = subgraph;
+        }
+    }
+    assert(cover(g.query, ans));
+    cout << "query set is covered" << endl;
+    cout << "size: " << ans.size() << endl;
+    cout << "nodes: ";
+    for (int x: ans) {
+        cout << x << " ";
+    }
+    cout << endl;
+    cout << "influence: " << max_influence << endl;
+}
+
+void influence_max(set<int> &subgraph, InfGraph &graph) {
+    set<int> non_query;
+    set_difference(subgraph.begin(), subgraph.end(), graph.query.begin(), graph.query.end()
+    , inserter(non_query, non_query.begin()));
+
+    vector<bool> sample_vis = vector<bool>(graph.hyperGT.size());
+    vector<int> sample_deg = graph.sample_deg;
+    while (subgraph.size() > graph.budget) {
+        int node = choose_least_infleuent_node(non_query, sample_deg);
+        subgraph.erase(node);
+        non_query.erase(node);
+        sample_deg[node] = 0;
+        for (auto v: graph.hyperG[node]) {
+            if (sample_vis[v]) {
+                continue;
+            }
+            sample_vis[v] = true;
+            for (auto u: graph.hyperGT[v]) {
+                sample_deg[u]--;
+            }
+        }
+    }
+}
+
+int choose_least_infleuent_node(const set<int>& non_query, vector<int> sample_deg) {
+    if (non_query.empty()) {
+        cout << "Empty Set!" << endl;
+        return -1;
+    }
+    int deg_min = INT_MAX, ret_node = 0;
+    for (int x: non_query) {
+        if (sample_deg[x] < deg_min) {
+            deg_min = sample_deg[x];
+            ret_node = x;
+        }
+    }
+    return ret_node;
 }
 
 vector<set<int>> get_candidate(Graph &graph) {
@@ -131,7 +156,7 @@ vector<set<int>> get_candidate(Graph &graph) {
     int degeneracy = 0;
     for (int i = -1; i < max_i; i++) {
         set<int> i_node = ij_core_i_node[i];
-        if (cover(graph.query, i_node)) {
+        if (intersect(graph.query, i_node)) {
             break;
         }
         set<int> tmp;
@@ -139,10 +164,7 @@ vector<set<int>> get_candidate(Graph &graph) {
                 inserter(tmp, tmp.begin()));
         all_node = tmp;
         for (int j = 0; j <= max_j[i + 1]; j++) {
-            set<int> tmp_result;
             set<int> j_node = ij_core_all_node[make_pair(i + 1, j)];
-            set_difference(tmp.begin(), tmp.end(), j_node.begin(), j_node.end(), inserter(tmp_result, tmp_result.begin()));
-            tmp = tmp_result;
             if (i + j + 1 == degeneracy) {
                 candidate.emplace_back(tmp);
             } else if (i + j + 1 > degeneracy) {
@@ -151,9 +173,12 @@ vector<set<int>> get_candidate(Graph &graph) {
                 candidate.emplace_back(tmp);
             }
             degeneracy = max(degeneracy, i + j + 1);
-            if (cover(graph.query, j_node)) {
+            if (intersect(graph.query, j_node)) {
                 break;
             }
+            set<int> tmp_result;
+            set_difference(tmp.begin(), tmp.end(), j_node.begin(), j_node.end(), inserter(tmp_result, tmp_result.begin()));
+            tmp = tmp_result;
         }
     }
     return candidate;

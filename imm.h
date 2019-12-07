@@ -75,29 +75,18 @@ public:
         Timer t(100, "InfluenceMaximize(Total Time)");
 
         INFO("########## Step1 ##########");
-
-        // debugging mode lalala
         double OPT_prime;
         OPT_prime = step1(g, arg ); //estimate OPT
 
-
-
         INFO("########## Step2 ##########");
-
-
         double opt_lower_bound = OPT_prime;
         INFO(opt_lower_bound);
         step2(g, arg, OPT_prime);
         INFO("step2 finish");
 
-        cout << "final result:" << endl;
-        for (auto x: g.seedSet) {
-            cout << x << " ";
+        for (int i = 0; i < g.n; i++) {
+            g.sample_deg[i] = g.hyperG[i].size();
         }
-        cout << endl;
-
-        cout << "influence:" << endl;
-        cout << g.Influence_IC_RRSet() << endl;
     }
 
 };
