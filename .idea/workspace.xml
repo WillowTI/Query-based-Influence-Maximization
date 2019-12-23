@@ -15,7 +15,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/QIC.dir/main.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/QIC.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/head.h" beforeDir="false" afterPath="$PROJECT_DIR$/head.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ijcore.h" beforeDir="false" afterPath="$PROJECT_DIR$/ijcore.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imm.h" beforeDir="false" afterPath="$PROJECT_DIR$/imm.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/infgraph.h" beforeDir="false" afterPath="$PROJECT_DIR$/infgraph.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
@@ -158,7 +158,10 @@
       <workItem from="1575608066478" duration="4667000" />
       <workItem from="1575633497903" duration="596000" />
       <workItem from="1575642802159" duration="6634000" />
-      <workItem from="1575723688312" duration="2880000" />
+      <workItem from="1575723688312" duration="3022000" />
+      <workItem from="1576817808019" duration="5222000" />
+      <workItem from="1577116507547" duration="3515000" />
+      <workItem from="1577120058185" duration="671000" />
     </task>
     <task id="LOCAL-00001" summary="add README.md">
       <created>1570726179872</created>
@@ -234,30 +237,35 @@
     <option name="LAST_COMMIT_MESSAGE" value="1.更新样例数据，最后增加一个度，把剩余的点全部包括进去，为了方便测试&#10;2.数据不是很好，入度出度写反了，最后结果一样，太巧合了&#10;3.Graph 类增加邻接矩阵，之前为了做 RRSet 只有反向邻接矩阵&#10;4.实现 i 轴，也就是入度，方向上的 ij-core" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="144" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1577118452255">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1576818415383" />
+    <state x="144" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1577118452255" />
     <state x="321" y="70" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1575521353174">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="321" y="70" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.680@0.0.1280.680" timestamp="1575521353174" />
-    <state width="1237" height="149" key="GridCell.Tab.0.bottom" timestamp="1575726621687">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1877" height="407" key="GridCell.Tab.0.bottom" timestamp="1577120729680">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1237" height="149" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1575726621687" />
-    <state width="1877" height="259" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1575651882965" />
-    <state width="1237" height="149" key="GridCell.Tab.0.center" timestamp="1575726621687">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1237" height="241" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1576824461015" />
+    <state width="1877" height="407" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1577120729680" />
+    <state width="1877" height="407" key="GridCell.Tab.0.center" timestamp="1577120729680">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1237" height="149" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1575726621687" />
-    <state width="1877" height="259" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1575651882965" />
-    <state width="1237" height="149" key="GridCell.Tab.0.left" timestamp="1575726621687">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1237" height="241" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1576824461015" />
+    <state width="1877" height="407" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1577120729680" />
+    <state width="1877" height="407" key="GridCell.Tab.0.left" timestamp="1577120729680">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1237" height="149" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1575726621687" />
-    <state width="1877" height="259" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1575651882965" />
-    <state width="1237" height="149" key="GridCell.Tab.0.right" timestamp="1575726621687">
-      <screen x="0" y="0" width="1280" height="680" />
+    <state width="1237" height="241" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1576824461015" />
+    <state width="1877" height="407" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1577120729680" />
+    <state width="1877" height="407" key="GridCell.Tab.0.right" timestamp="1577120729680">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1237" height="149" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1575726621687" />
-    <state width="1877" height="259" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1575651882965" />
+    <state width="1237" height="241" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1576824461015" />
+    <state width="1877" height="407" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1577120729680" />
     <state width="1237" height="163" key="GridCell.Tab.1.bottom" timestamp="1575539582870">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

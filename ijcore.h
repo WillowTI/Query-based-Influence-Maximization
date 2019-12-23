@@ -19,6 +19,7 @@ map<pair<int, int>, set<int>> ij_core_all_node;
 map<int, set<int>> ij_core_i_node;
 int max_i = 0;
 vector<int> max_j;
+bool has_do_calc = false;
 
 void delete_node(Graph &graph, set<int> &s, std::vector<int> &out_deg, std::vector<int> &out_bin);
 void calc_diff_brutal();
@@ -93,7 +94,7 @@ void get_diff_i() {
 }
 
 // 计算 i，也就是入度方向上的 core
-void calc_diff_i(Graph g) {
+void calc_diff_i(InfGraph g) {
     tmp_ij_core_i_node = vector<int>(g.n, 0);
     vector<int> bin(g.in_max + 1, 0);
     tmp_ij_core_i_deg = g.inDeg;
@@ -143,8 +144,10 @@ void calc_diff_i(Graph g) {
 }
 
 
-void calc_diff(Graph g1) {
-    Graph g = g1;
+void calc_diff(InfGraph g) {
+    if (has_do_calc) {
+        return;
+    }
     calc_diff_i(g);
     for (int x: tmp_ij_core_i_node) {
         ij_core_i_node[tmp_ij_core_i_deg[x]].emplace(x);
@@ -225,6 +228,7 @@ void calc_diff(Graph g1) {
         }
         max_j.emplace_back(tmp_max);
     }
+    has_do_calc = true;
 }
 
 void delete_node(Graph &graph, set<int> &s, std::vector<int> &out_deg, std::vector<int> &out_bin) {
@@ -244,6 +248,31 @@ void delete_node(Graph &graph, set<int> &s, std::vector<int> &out_deg, std::vect
         out_bin[out_deg[x]]--;
     }
     graph.active_n -= s.size();
+}
+
+set<int> get_ij_core(const InfGraph& g, int i, int j) {
+    calc_diff(g);
+    set<int> node;
+    vector<bool> flag = vector<bool>(g.n);
+    int del = 0;
+    for (int k = 0; k < i; k++) {
+        for (int x: ij_core_i_node[k]) {
+            flag[x] = true;
+            del++;
+        }
+    }
+    for (int k = 0; k < j; k++) {
+        for (int x: ij_core_all_node[make_pair(i - 1, k)]) {
+            flag[x] = true;
+            del++;
+        }
+    }
+    for (int k = 0; k < flag.size(); k++) {
+        if (!flag[k]) {
+            node.emplace(k);
+        }
+    }
+    return node;
 }
 
 

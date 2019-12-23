@@ -13,24 +13,36 @@ using namespace std;
 void Run(int argn, char **argv);
 void run_with_parameter(InfGraph &g, const Argument & arg);
 
-vector<set<int>> get_candidate(Graph &graph);
+vector<set<int>> get_candidate(InfGraph &graph);
 
-void influence_max(set<int> &subgraph, InfGraph &graph);
+void influence_max(set<int> &subgraph, InfGraph &graph, const Argument& arg);
 
 int choose_least_infleuent_node(const set<int>& non_query, vector<int> sample_deg);
 
+Argument getArg(int argn, char **argv);
+
+set<int> influence_max_ij_core(int i, int j, InfGraph graph, Argument arg);
+
 int main(int argn, char **argv) {
-    OutputInfo info(argn, argv);
-    Run(argn, argv);
+//    OutputInfo info(argn, argv);
+//    Run(argn, argv);
+    Argument arg = getArg(argn, argv);
+    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
+    set<int> ans = influence_max_ij_core(21, 8, graph, arg);
+    cout << ans.size() << endl;
+    for (int x: ans) {
+        cout << x << " ";
+    }
+    cout << endl;
     return 0;
 }
 
-void Run(int argn, char **argv) {
-    Argument arg;
+Argument getArg(int argn, char **argv) {
+    Argument arg = Argument();
     for (int i = 0; i < argn; i++) {
         if (argv[i] == string("-help") || argv[i] == string("--help") || argn == 1) {
             cout << "./tim -dataset *** -epsilon *** -k ***  -model IC|LT|TR|CONT " << endl;
-            return ;
+            return arg;
         }
         if (argv[i] == string("-dataset"))
             arg.dataset = argv[i + 1];
@@ -45,6 +57,11 @@ void Run(int argn, char **argv) {
         ASSERT(arg.dataset != "");
         ASSERT(arg.model == "IC" || arg.model == "LT" || arg.model == "TR" || arg.model=="CONT");
     }
+    return arg;
+}
+
+void Run(int argn, char **argv) {
+    Argument arg = getArg(argn, argv);
     string graph_file;
     if (arg.model == "IC") {
         graph_file = arg.dataset + "graph_ic.inf";
@@ -58,21 +75,19 @@ void Run(int argn, char **argv) {
         ASSERT(false);
     }
     InfGraph g(arg.dataset, graph_file);
-    if (arg.model == "IC")
+    if (arg.model == "IC") {
         g.setInfuModel(InfGraph::IC);
-    else if (arg.model == "LT")
+    } else if (arg.model == "LT") {
         g.setInfuModel(InfGraph::LT);
-    else if (arg.model == "TR")
+    } else if (arg.model == "TR") {
         g.setInfuModel(InfGraph::IC);
-    else if (arg.model == "CONT")
+    } else if (arg.model == "CONT") {
         g.setInfuModel(InfGraph::CONT);
-    else
+    } else {
         ASSERT(false);
-
+    }
     INFO(arg.T);
-
     run_with_parameter(g, arg);
-
 }
 
 void run_with_parameter(InfGraph &g, const Argument & arg)
@@ -89,7 +104,7 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
     double max_influence = 0.0;
     //遍历所有候选子图，分别删除影响力最低的点，直至size不超过budget，选择影响力最大的点集作为最终结果
     for (auto subgraph: candidate) {
-        influence_max(subgraph, g);//subgraph在这个函数中被改变
+        influence_max(subgraph, g, arg);//subgraph在这个函数中被改变
         double tmp_influence = g.Influence_IC_RRSet(subgraph);
         if (tmp_influence > max_influence) {
             max_influence = tmp_influence;
@@ -97,7 +112,8 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
         }
     }
     assert(cover(g.query, ans));
-    cout << "query set is covered" << endl;
+//    cout << "query set is covered" << endl;
+//    freopen("sample_ans.txt", "w", stdout);
     cout << "size: " << ans.size() << endl;
     cout << "nodes: ";
     for (int x: ans) {
@@ -105,9 +121,17 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
     }
     cout << endl;
     cout << "influence: " << max_influence << endl;
+
 }
 
-void influence_max(set<int> &subgraph, InfGraph &graph) {
+void influence_max(set<int> &subgraph, InfGraph &graph, const Argument& arg) {
+    if (!graph.isSampled) {
+        Imm::InfluenceMaximize(graph, arg);
+    }
+    if (!cover(graph.query, subgraph)) {
+        cout << "Query set cannot be covered!" << endl;
+        return;
+    }
     set<int> non_query;
     set_difference(subgraph.begin(), subgraph.end(), graph.query.begin(), graph.query.end()
     , inserter(non_query, non_query.begin()));
@@ -146,7 +170,7 @@ int choose_least_infleuent_node(const set<int>& non_query, vector<int> sample_de
     return ret_node;
 }
 
-vector<set<int>> get_candidate(Graph &graph) {
+vector<set<int>> get_candidate(InfGraph &graph) {
     vector<set<int>> candidate = vector<set<int>>();
     calc_diff(graph);
     set<int> all_node;
@@ -182,4 +206,13 @@ vector<set<int>> get_candidate(Graph &graph) {
         }
     }
     return candidate;
+}
+
+set<int> influence_max_ij_core(int i, int j, InfGraph graph, Argument arg) {
+    set<int> subgraph = get_ij_core(graph, 20, 9);
+    if (!cover(graph.query, subgraph)) {
+        return subgraph;
+    }
+    influence_max(subgraph, graph, arg);
+    return subgraph;
 }

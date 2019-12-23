@@ -9,11 +9,12 @@ class InfGraph: public Graph
 private:
     vector<bool> visit;
     vector<int> visit_mark;
+    deque<int> q;//用于BFS采样
 public:
     vector<set<int>> hyperG;//某个点在哪些次取样出现
     vector<set<int>> hyperGT;//第i次取样取到了哪些点，包括起点
     vector<int> sample_deg;
-    deque<int> q;//用于BFS采样
+    bool isSampled;
     sfmt_t sfmtSeed;
     vector<set<int>> influence;//点i能激活哪些点
     set<int> seedSet;//保存最终结果，多次用到
@@ -26,6 +27,7 @@ public:
         visit_mark = vector<int> (n);
         influence = vector<set<int>>(n);
         sample_deg = vector<int>(n);
+        isSampled = false;
     }
 
     void init_hyper_graph(){

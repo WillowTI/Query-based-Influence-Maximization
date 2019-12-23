@@ -87,6 +87,7 @@ public:
         for (int i = 0; i < g.n; i++) {
             g.sample_deg[i] = g.hyperG[i].size();
         }
+        g.isSampled = true;
     }
 
 };
