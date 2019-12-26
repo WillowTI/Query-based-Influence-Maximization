@@ -23,17 +23,42 @@ Argument getArg(int argn, char **argv);
 
 set<int> influence_max_ij_core(int i, int j, InfGraph graph, Argument arg);
 
+vector<vector<int>> sample;
+
+int node_size = 15229;
+vector<int> degree;
+
+bool cmp(int x, int y);
+
 int main(int argn, char **argv) {
 //    OutputInfo info(argn, argv);
 //    Run(argn, argv);
-    Argument arg = getArg(argn, argv);
-    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
-    set<int> ans = influence_max_ij_core(21, 8, graph, arg);
-    cout << ans.size() << endl;
-    for (int x: ans) {
-        cout << x << " ";
+//    Argument arg = getArg(argn, argv);
+//    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
+    freopen("pattern.txt", "r", stdin);
+    int n;
+    cin >> n;
+    degree = vector<int>(node_size);
+    sample = vector<vector<int>>(n);
+    for (int i = 0; i < n; i++) {
+        int nn;
+        cin >> nn;
+        while (nn--) {
+            int x;
+            cin >> x;
+            sample[i].emplace_back(x);
+            degree[x]++;
+        }
     }
-    cout << endl;
+    for (int i = 0; i < sample.size(); i++) {
+        sort(sample[i].begin(), sample[i].end(), cmp);
+    }
+    for (int i = 0; i < 10; i++) {
+        for (int x: sample[i]) {
+            cout << x << " ";
+        }
+        cout << endl;
+    }
     return 0;
 }
 
@@ -215,4 +240,12 @@ set<int> influence_max_ij_core(int i, int j, InfGraph graph, Argument arg) {
     }
     influence_max(subgraph, graph, arg);
     return subgraph;
+}
+
+bool cmp(int x, int y) {
+    if (degree[x] != degree[y]) {
+        return degree[x] < degree[y];
+    } else {
+        return x < y;
+    }
 }

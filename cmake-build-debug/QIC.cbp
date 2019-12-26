@@ -112,6 +112,9 @@
 		<Unit filename="/cygdrive/f/TestCode/c++/QIC/test.h">
 			<Option target="QIC"/>
 		</Unit>
+		<Unit filename="/cygdrive/f/TestCode/c++/QIC/trie.h">
+			<Option target="QIC"/>
+		</Unit>
 		<Unit filename="/cygdrive/f/TestCode/c++/QIC/ugraph.h">
 			<Option target="QIC"/>
 		</Unit>
