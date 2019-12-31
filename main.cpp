@@ -24,12 +24,18 @@ Argument getArg(int argn, char **argv);
 
 set<int> influence_max_ij_core(int i, int j, InfGraph graph, Argument arg);
 
-vector<vector<int>> sample;
+vector<vector<int>> hyperGT, hyperG;
 
 int node_size = 15229;
 vector<int> degree;
 
 bool cmp(int x, int y);
+
+void delete_node(trie_node *node);
+
+void down_delete(trie_node *node);
+
+void visit(trie_node *node);
 
 int main(int argn, char **argv) {
 //    OutputInfo info(argn, argv);
@@ -37,62 +43,93 @@ int main(int argn, char **argv) {
 //    Argument arg = getArg(argn, argv);
 //    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
 //    Imm::InfluenceMaximize(graph, arg);
-//    freopen("pattern.txt", "w", stdout);
-//    cout << graph.hyperGT.size() << endl;
-//    for (auto aa: graph.hyperGT) {
-//        cout << aa.size() << endl;
-//        for (auto b: aa) {
-//            cout << b << " ";
-//        }
-//        cout << endl;
-//    }
-
     freopen("pattern.txt", "r", stdin);
     trie tree = trie(node_size);
     int n;
     cin >> n;
     degree = vector<int>(node_size);
-    sample = vector<vector<int>>(n);
+    hyperGT = vector<vector<int>>(n);
+    hyperG = vector<vector<int>>(node_size);
     for (int i = 0; i < n; i++) {
         int nn;
         cin >> nn;
         while (nn--) {
             int x;
             cin >> x;
-            sample[i].emplace_back(x);
+            hyperGT[i].emplace_back(x);
+            hyperG[x].emplace_back(i);
             degree[x]++;
         }
     }
 
-//    for (auto & i : sample) {
-//        sort(i.begin(), i.end(), cmp);
-//    }
+    vector<int> degree_tmp = degree;
 
-//    freopen("pattern.txt", "w", stdout);
-//    cout << n << endl;
-//    for (const auto & i : sample) {
-//        cout << i.size() << endl;
-//        for (int ii: i) {
-//            cout << ii << " ";
-//        }
-//        cout << endl;
-//    }
-
-    for (const auto & i : sample) {
+    for (const auto & i : hyperGT) {
         tree.insert(i);
     }
 
-    cout << "-------------" << endl;
-
     trie_node* head = tree.linked_list[10];
-    int cnt = 0;
 
     while (head != nullptr) {
-        cnt += head->node_cnt;
+        delete_node(head);
         head = head->list_next;
     }
 
+//    freopen("del_10_trie.txt", "w", stdout);
+//
+//    for (int x: degree) {
+//        cout << x << endl;
+//    }
+//
+//    for (auto x: hyperG[10]) {
+//        for (auto xx: hyperGT[x]) {
+//            degree_tmp[xx]--;
+//        }
+//    }
+//    freopen("del_10_normal.txt", "w", stdout);
+//    for (int x: degree_tmp) {
+//        cout << x << endl;
+//    }
+    for (int i = 0; i < node_size; i++) {
+        if (degree[i] != degree_tmp[i]) {
+            cout << i << endl;
+        }
+    }
+
     return 0;
+}
+
+void visit(trie_node *node) {
+    while (node != nullptr) {
+        cout << node->node_name << " " << node->node_cnt << endl;
+        node = node->father;
+    }
+}
+
+void delete_node(trie_node *node) {
+    int cnt = node->node_cnt;
+    trie_node* tmp = node;
+    down_delete(node);
+    node = node->father;
+    while(node != nullptr) {
+        degree[node->node_name] -= cnt;
+        node->node_cnt -= cnt;
+        node = node->father;
+    }
+    while(tmp->node_cnt <= 0 && tmp->father != nullptr && tmp->node_cnt <= 0) {
+        tmp = tmp->father;
+    }
+}
+
+void down_delete(trie_node *node) {
+    if (node == nullptr) {
+        return;
+    }
+    degree[node->node_name] -= node->node_cnt;
+    node->node_cnt = 0;
+    for (auto x: node->child) {
+        down_delete(x);
+    }
 }
 
 Argument getArg(int argn, char **argv) {

@@ -37,18 +37,19 @@ public:
     }
 
     void clear() {
-        clear_node(root);
+        clear_node(&root);
     }
 
-    void clear_node(trie_node cur) {
-        for (auto x: cur.child) {
+    static void clear_node(trie_node* cur) {
+        for (auto x: cur->child) {
             if (x == nullptr) {
                 continue;
             }
-            clear_node(*x);
+            clear_node(x);
             delete x;
             x = nullptr;
         }
+        delete cur;
     }
 
     void insert(const vector<int>& pattern) {
