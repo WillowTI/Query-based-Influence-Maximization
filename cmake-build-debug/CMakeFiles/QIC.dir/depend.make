@@ -10,6 +10,7 @@ CMakeFiles/QIC.dir/main.cpp.o: ../infgraph.h
 CMakeFiles/QIC.dir/main.cpp.o: ../main.cpp
 CMakeFiles/QIC.dir/main.cpp.o: ../sfmt.h
 CMakeFiles/QIC.dir/main.cpp.o: ../test.h
+CMakeFiles/QIC.dir/main.cpp.o: ../trie.h
 CMakeFiles/QIC.dir/main.cpp.o: ../ugraph.h
 
 CMakeFiles/QIC.dir/sfmt.cpp.o: ../sfmt.cpp

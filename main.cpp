@@ -6,6 +6,7 @@
 #include "test.h"
 #include "ugraph.h"
 #include "ijcore.h"
+#include "trie.h"
 #define DBG(x) do { cout<<"\e\[0;32mDEBUG: " << x << "\e[0m" << endl;} while (0)
 
 using namespace std;
@@ -35,7 +36,19 @@ int main(int argn, char **argv) {
 //    Run(argn, argv);
 //    Argument arg = getArg(argn, argv);
 //    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
+//    Imm::InfluenceMaximize(graph, arg);
+//    freopen("pattern.txt", "w", stdout);
+//    cout << graph.hyperGT.size() << endl;
+//    for (auto aa: graph.hyperGT) {
+//        cout << aa.size() << endl;
+//        for (auto b: aa) {
+//            cout << b << " ";
+//        }
+//        cout << endl;
+//    }
+
     freopen("pattern.txt", "r", stdin);
+    trie tree = trie(node_size);
     int n;
     cin >> n;
     degree = vector<int>(node_size);
@@ -50,15 +63,35 @@ int main(int argn, char **argv) {
             degree[x]++;
         }
     }
-    for (int i = 0; i < sample.size(); i++) {
-        sort(sample[i].begin(), sample[i].end(), cmp);
+
+//    for (auto & i : sample) {
+//        sort(i.begin(), i.end(), cmp);
+//    }
+
+//    freopen("pattern.txt", "w", stdout);
+//    cout << n << endl;
+//    for (const auto & i : sample) {
+//        cout << i.size() << endl;
+//        for (int ii: i) {
+//            cout << ii << " ";
+//        }
+//        cout << endl;
+//    }
+
+    for (const auto & i : sample) {
+        tree.insert(i);
     }
-    for (int i = 0; i < 10; i++) {
-        for (int x: sample[i]) {
-            cout << x << " ";
-        }
-        cout << endl;
+
+    cout << "-------------" << endl;
+
+    trie_node* head = tree.linked_list[10];
+    int cnt = 0;
+
+    while (head != nullptr) {
+        cnt += head->node_cnt;
+        head = head->list_next;
     }
+
     return 0;
 }
 

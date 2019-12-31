@@ -107,6 +107,8 @@ ugraph.h
 /cygdrive/f/TestCode/c++/QIC/ugraph.h
 ijcore.h
 /cygdrive/f/TestCode/c++/QIC/ijcore.h
+trie.h
+/cygdrive/f/TestCode/c++/QIC/trie.h
 
 /cygdrive/f/TestCode/c++/QIC/sfmt.h
 cstdint
@@ -115,6 +117,10 @@ cstdint
 /cygdrive/f/TestCode/c++/QIC/test.h
 graph.h
 /cygdrive/f/TestCode/c++/QIC/graph.h
+
+/cygdrive/f/TestCode/c++/QIC/trie.h
+bits/stdc++.h
+/cygdrive/f/TestCode/c++/QIC/bits/stdc++.h
 
 /cygdrive/f/TestCode/c++/QIC/ugraph.h
 head.h
