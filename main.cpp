@@ -18,16 +18,11 @@ vector<set<int>> get_candidate(InfGraph &graph);
 
 void influence_max(set<int> &subgraph, InfGraph &graph, const Argument& arg);
 
-int choose_least_infleuent_node(const set<int>& non_query, vector<int> sample_deg);
+int choose_least_influent_node(const set<int>& non_query);
 
 Argument getArg(int argn, char **argv);
 
 set<int> influence_max_ij_core(int i, int j, InfGraph graph, Argument arg);
-
-vector<vector<int>> hyperGT, hyperG;
-
-int node_size = 15229;
-vector<int> degree;
 
 bool cmp(int x, int y);
 
@@ -37,65 +32,22 @@ void down_delete(trie_node *node);
 
 void visit(trie_node *node);
 
+void brutal_maintain(InfGraph &graph, vector<bool> &sample_vis, int node);
+
+void build_trie_from_disk();
+
+void read_data_from_disk();
+
+void trie_maintain(InfGraph &graph, int node);
+
+vector<vector<int>> hyperGT, hyperG;
+int node_size = 15229;
+trie tree = trie(node_size);
+vector<int> degree;
+
 int main(int argn, char **argv) {
-//    OutputInfo info(argn, argv);
-//    Run(argn, argv);
-//    Argument arg = getArg(argn, argv);
-//    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
-//    Imm::InfluenceMaximize(graph, arg);
-    freopen("pattern.txt", "r", stdin);
-    trie tree = trie(node_size);
-    int n;
-    cin >> n;
-    degree = vector<int>(node_size);
-    hyperGT = vector<vector<int>>(n);
-    hyperG = vector<vector<int>>(node_size);
-    for (int i = 0; i < n; i++) {
-        int nn;
-        cin >> nn;
-        while (nn--) {
-            int x;
-            cin >> x;
-            hyperGT[i].emplace_back(x);
-            hyperG[x].emplace_back(i);
-            degree[x]++;
-        }
-    }
-
-    vector<int> degree_tmp = degree;
-
-    for (const auto & i : hyperGT) {
-        tree.insert(i);
-    }
-
-    trie_node* head = tree.linked_list[10];
-
-    while (head != nullptr) {
-        delete_node(head);
-        head = head->list_next;
-    }
-
-//    freopen("del_10_trie.txt", "w", stdout);
-//
-//    for (int x: degree) {
-//        cout << x << endl;
-//    }
-//
-//    for (auto x: hyperG[10]) {
-//        for (auto xx: hyperGT[x]) {
-//            degree_tmp[xx]--;
-//        }
-//    }
-//    freopen("del_10_normal.txt", "w", stdout);
-//    for (int x: degree_tmp) {
-//        cout << x << endl;
-//    }
-    for (int i = 0; i < node_size; i++) {
-        if (degree[i] != degree_tmp[i]) {
-            cout << i << endl;
-        }
-    }
-
+    OutputInfo info(argn, argv);
+    Run(argn, argv);
     return 0;
 }
 
@@ -190,7 +142,8 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << arg.dataset << " k=" << arg.k << " epsilon=" << arg.epsilon <<   " " << arg.model << endl;
 
-    Imm::InfluenceMaximize(g, arg);//用于采样
+    read_data_from_disk();
+    Imm::InfluenceMaximize(g, arg);//用于采样，在线算法，和直接从硬盘比较运行速度
 
     //获取候选子图
     vector<set<int>> candidate;
@@ -219,6 +172,26 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
 
 }
 
+void read_data_from_disk() {
+    freopen("pattern.txt", "r", stdin);
+    int pattern_size;
+    cin >> pattern_size;
+    degree = vector<int>(node_size);
+    hyperGT = vector<vector<int>>(pattern_size);
+    hyperG = vector<vector<int>>(node_size);
+    for (int i = 0; i < pattern_size; i++) {
+        int nn;
+        cin >> nn;
+        while (nn--) {
+            int x;
+            cin >> x;
+            hyperGT[i].emplace_back(x);
+            hyperG[x].emplace_back(i);
+            degree[x]++;
+        }
+    }
+}
+
 void influence_max(set<int> &subgraph, InfGraph &graph, const Argument& arg) {
     if (!graph.isSampled) {
         Imm::InfluenceMaximize(graph, arg);
@@ -227,38 +200,55 @@ void influence_max(set<int> &subgraph, InfGraph &graph, const Argument& arg) {
         cout << "Query set cannot be covered!" << endl;
         return;
     }
+    build_trie_from_disk();
     set<int> non_query;
     set_difference(subgraph.begin(), subgraph.end(), graph.query.begin(), graph.query.end()
     , inserter(non_query, non_query.begin()));
-
     vector<bool> sample_vis = vector<bool>(graph.hyperGT.size());
-    vector<int> sample_deg = graph.sample_deg;
     while (subgraph.size() > graph.budget) {
-        int node = choose_least_infleuent_node(non_query, sample_deg);
+        int node = choose_least_influent_node(non_query);
         subgraph.erase(node);
         non_query.erase(node);
-        sample_deg[node] = 0;
-        for (auto v: graph.hyperG[node]) {
-            if (sample_vis[v]) {
-                continue;
-            }
-            sample_vis[v] = true;
-            for (auto u: graph.hyperGT[v]) {
-                sample_deg[u]--;
-            }
+//        brutal_maintain(graph, sample_vis, node);
+        trie_maintain(graph, node);
+    }
+}
+
+void trie_maintain(InfGraph &graph, int node) {
+    trie_node* head = tree.linked_list[node];
+    while (head != nullptr) {
+        delete_node(head);
+        head = head->list_next;
+    }
+}
+
+void build_trie_from_disk() {
+    for (const auto & i : hyperGT) {
+        tree.insert(i);
+    }
+}
+
+void brutal_maintain(InfGraph &graph, vector<bool> &sample_vis, int node) {
+    for (auto v: graph.hyperG[node]) {
+        if (sample_vis[v]) {
+            continue;
+        }
+        sample_vis[v] = true;
+        for (auto u: graph.hyperGT[v]) {
+            degree[u]--;
         }
     }
 }
 
-int choose_least_infleuent_node(const set<int>& non_query, vector<int> sample_deg) {
+int choose_least_influent_node(const set<int>& non_query) {
     if (non_query.empty()) {
         cout << "Empty Set!" << endl;
         return -1;
     }
     int deg_min = INT_MAX, ret_node = 0;
     for (int x: non_query) {
-        if (sample_deg[x] < deg_min) {
-            deg_min = sample_deg[x];
+        if (degree[x] < deg_min) {
+            deg_min = degree[x];
             ret_node = x;
         }
     }

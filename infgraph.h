@@ -264,6 +264,28 @@ public:
         return (double)sample.size() / hyperGT.size();
     }
 
+    void print_ij(set<int> ij_set) {
+        int min_i = (int)1e7;
+        int min_j = (int)1e7;
+        for (int x: ij_set) {
+            int tmp_i = 0;
+            int tmp_j = 0;
+            for (int out: gT[x]) {
+                if (ij_set.find(out) != ij_set.end()) {
+                    tmp_i++;
+                }
+            }
+            for (int in: g[x]) {
+                if (ij_set.find(in) != ij_set.end()) {
+                    tmp_j++;
+                }
+            }
+            min_i = min(min_i, tmp_i);
+            min_j = min(min_j, tmp_j);
+        }
+        cout << "ij_core: " << min_i << ", " << min_j << endl;
+    }
+
 };
 
 
