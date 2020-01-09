@@ -38,7 +38,7 @@ void build_trie_from_disk();
 
 void read_data_from_disk();
 
-void trie_maintain(InfGraph &graph, int node);
+void trie_maintain(int node);
 
 vector<vector<int>> hyperGT, hyperG;
 int node_size = 15229;
@@ -46,8 +46,19 @@ trie tree = trie(node_size);
 vector<int> degree;
 
 int main(int argn, char **argv) {
-    OutputInfo info(argn, argv);
-    Run(argn, argv);
+//    OutputInfo info(argn, argv);
+//    Run(argn, argv);
+    read_data_from_disk();
+    build_trie_from_disk();
+//    trie_node* node = tree.linked_list[11428];
+//    while (node != nullptr) {
+//        cout << node->node_name << " " << node->node_cnt << endl;
+//        node = node->list_next;
+//    }
+//    cout << "----------------" << endl;
+    trie_maintain(11428);
+    build_trie_from_disk();
+    cout << "done" << endl;
     return 0;
 }
 
@@ -68,9 +79,10 @@ void delete_node(trie_node *node) {
         node->node_cnt -= cnt;
         node = node->father;
     }
-    while(tmp->node_cnt <= 0 && tmp->father != nullptr && tmp->node_cnt <= 0) {
+    while(tmp->node_cnt <= 0 && tmp->father != nullptr && tmp->father->node_name != -1 && tmp->father->node_cnt <= 0) {
         tmp = tmp->father;
     }
+    tree.clear_node(tmp);
 }
 
 void down_delete(trie_node *node) {
@@ -151,6 +163,7 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
     set<int> ans;
     double max_influence = 0.0;
     //遍历所有候选子图，分别删除影响力最低的点，直至size不超过budget，选择影响力最大的点集作为最终结果
+    cout << "1111" << endl;
     for (auto subgraph: candidate) {
         influence_max(subgraph, g, arg);//subgraph在这个函数中被改变
         double tmp_influence = g.Influence_IC_RRSet(subgraph);
@@ -158,6 +171,7 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
             max_influence = tmp_influence;
             ans = subgraph;
         }
+        cout << "1111" << endl;
     }
     assert(cover(g.query, ans));
 //    cout << "query set is covered" << endl;
@@ -174,6 +188,7 @@ void run_with_parameter(InfGraph &g, const Argument & arg)
 
 void read_data_from_disk() {
     freopen("pattern.txt", "r", stdin);
+//    freopen("small_pattern.txt", "r", stdin);
     int pattern_size;
     cin >> pattern_size;
     degree = vector<int>(node_size);
@@ -210,11 +225,11 @@ void influence_max(set<int> &subgraph, InfGraph &graph, const Argument& arg) {
         subgraph.erase(node);
         non_query.erase(node);
 //        brutal_maintain(graph, sample_vis, node);
-        trie_maintain(graph, node);
+        trie_maintain(node);
     }
 }
 
-void trie_maintain(InfGraph &graph, int node) {
+void trie_maintain(int node) {
     trie_node* head = tree.linked_list[node];
     while (head != nullptr) {
         delete_node(head);
@@ -223,6 +238,8 @@ void trie_maintain(InfGraph &graph, int node) {
 }
 
 void build_trie_from_disk() {
+    tree.clear();
+    tree = trie(node_size);
     for (const auto & i : hyperGT) {
         tree.insert(i);
     }
