@@ -78,6 +78,25 @@ public:
         }
     }
 
+    void insert(const set<int>& pattern) {
+        trie_node* cur = root;
+        for (int x: pattern) {
+            if (cur->position.find(x) == cur->position.end()) {
+                cur->position[x] = cur->child.size();
+                cur->child.emplace_back(new trie_node);
+                trie_node *next = cur->child[cur->child.size() - 1];
+                next->father = cur;
+                next->node_name = x;
+                next->list_next = linked_list[x];
+                linked_list[x] = next;
+            }
+            degree[x]++;
+            int next_index = cur->position[x];
+            cur = cur->child[next_index];
+            cur->node_cnt++;
+        }
+    }
+
     void pre_visit() {
         pre_visit(*root);
     }

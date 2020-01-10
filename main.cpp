@@ -40,7 +40,13 @@ void read_data_from_disk();
 
 void trie_maintain(int node);
 
-vector<vector<int>> hyperGT, hyperG;
+set<int> delete_least_deg_nodes(set<int> vector, InfGraph graph, int budget);
+
+set<int> direct_pick(vector<int> degeneracy, set<int> subgraph, int budget);
+
+set<int> delete_and_maintain(vector<int> degeneracy, set<int> subgraph, int budget, InfGraph graph);
+
+vector<set<int>> hyperGT, hyperG;
 int node_size = 15229;
 trie tree = trie(node_size);
 vector<int> degree;
@@ -48,18 +54,109 @@ vector<int> degree;
 int main(int argn, char **argv) {
 //    OutputInfo info(argn, argv);
 //    Run(argn, argv);
-    read_data_from_disk();
-    build_trie_from_disk();
-//    trie_node* node = tree.linked_list[11428];
-//    while (node != nullptr) {
-//        cout << node->node_name << " " << node->node_cnt << endl;
-//        node = node->list_next;
+    int budget = 29;
+//    freopen("my_result.txt", "w", stdout);
+//    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
+//    set<int> subgraph, query;
+//    query.emplace(8899);
+//    query.emplace(9994);
+//    for (int i = 0; i < node_size; i++) {
+//        subgraph.emplace(i);
 //    }
-//    cout << "----------------" << endl;
-    trie_maintain(11428);
-    build_trie_from_disk();
-    cout << "done" << endl;
+//    read_data_from_disk();
+//    build_trie_from_disk();
+//    graph.hyperG = hyperG;
+//    graph.hyperGT = hyperGT;
+//    set<int> non_query;
+//    vector<bool> sample_vis = vector<bool>(hyperGT.size());
+//    set_difference(subgraph.begin(), subgraph.end(), query.begin(), query.end()
+//            , inserter(non_query, non_query.begin()));
+//    for (int tmp_size = node_size / 2; tmp_size > budget; tmp_size /= 2) {
+//        cout << "-----------------" << endl;
+//        while (subgraph.size() > tmp_size) {
+//            int node = choose_least_influent_node(non_query);
+//            subgraph.erase(node);
+//            non_query.erase(node);
+//            trie_maintain(node);
+//        }
+//        cout << subgraph.size() << endl;
+//        for (int x: subgraph) {
+//            cout << x << " ";
+//        }
+//        cout << endl;
+//        cout << graph.Influence_IC_RRSet(subgraph) << endl;
+//    }
+    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
+    Argument arg = getArg(argn, argv);
+    Imm::InfluenceMaximize(graph, arg);
+    set<int> subgraph;
+    freopen("my_result.txt", "r", stdin);
+    int nn;
+    cin >> nn;
+    for (int i = 0; i < nn; i++) {
+        int x;
+        cin >> x;
+        subgraph.emplace(x);
+    }
+    set<int> ans = delete_least_deg_nodes(subgraph, graph, 29);
+    cout << ans.size() << endl;
+    cout << graph.Influence_IC_RRSet(ans) << endl;
     return 0;
+}
+
+set<int> delete_least_deg_nodes(set<int> subgraph, InfGraph graph, int budget) {
+    vector<int> degeneracy =  vector<int>(node_size);
+    for (int node: subgraph) {
+        for (int out: graph.gT[node]) {
+            if (subgraph.find(out) != subgraph.end()) {
+                degeneracy[node]++;
+                degeneracy[out]++;
+            }
+        }
+    }
+//    return delete_and_maintain(degeneracy, subgraph, budget, graph);
+    return direct_pick(degeneracy, subgraph, budget);
+}
+
+set<int> delete_and_maintain(vector<int> degeneracy, set<int> subgraph, int budget, InfGraph graph) {
+    while (subgraph.size() > budget) {
+        int min_deg_node = -1;
+        int min_deg = (int)1e7;
+        for (int x: subgraph) {
+            if (subgraph.find(x) != subgraph.end() && degeneracy[x] < min_deg) {
+                min_deg = degeneracy[x];
+                min_deg_node = x;
+            }
+        }
+        subgraph.erase(min_deg_node);
+        for (int out: graph.gT[min_deg_node]) {
+            if (subgraph.find(out) != subgraph.end()) {
+                degeneracy[out]--;
+            }
+        }
+        for (int in: graph.g[min_deg_node]) {
+            if (subgraph.find(in) != subgraph.end()) {
+                degeneracy[in]--;
+            }
+        }
+    }
+    return subgraph;
+}
+
+set<int> direct_pick(vector<int> degeneracy, set<int> subgraph, int budget) {
+    priority_queue<int, vector<int>, less<>> q;
+    for (int node: subgraph) {
+        if (subgraph.find(node) != subgraph.end()) {
+            q.push(node);
+        }
+    }
+    set<int> ans;
+    while (ans.size() < budget) {
+        int tmp = q.top();
+        q.pop();
+        ans.emplace(tmp);
+    }
+    return ans;
 }
 
 void visit(trie_node *node) {
@@ -192,16 +289,16 @@ void read_data_from_disk() {
     int pattern_size;
     cin >> pattern_size;
     degree = vector<int>(node_size);
-    hyperGT = vector<vector<int>>(pattern_size);
-    hyperG = vector<vector<int>>(node_size);
+    hyperGT = vector<set<int>>(pattern_size);
+    hyperG = vector<set<int>>(node_size);
     for (int i = 0; i < pattern_size; i++) {
         int nn;
         cin >> nn;
         while (nn--) {
             int x;
             cin >> x;
-            hyperGT[i].emplace_back(x);
-            hyperG[x].emplace_back(i);
+            hyperGT[i].emplace(x);
+            hyperG[x].emplace(i);
             degree[x]++;
         }
     }
