@@ -10,7 +10,7 @@ using namespace std;
 
 struct trie_node {
     map<int, int> position;
-    int node_name, node_cnt;
+    int node_name, node_cnt, id;
     trie_node* father;
     trie_node* list_next;
     vector<trie_node*> child;
@@ -19,6 +19,7 @@ struct trie_node {
         list_next = nullptr;
         node_name = -1;
         node_cnt = 0;
+        id = 0;
     }
 };
 
@@ -28,7 +29,7 @@ public:
     trie_node* root;
     vector<int> degree;
     vector<trie_node*> linked_list;
-    int node_size;
+    int node_size, id_cnt;
     trie(int node_size) {
         this->node_size = node_size;
         degree = vector<int>(node_size);

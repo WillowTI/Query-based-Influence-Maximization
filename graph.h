@@ -66,7 +66,9 @@ public:
 
     void readNM()
     {
-        ifstream cin((folder + "attribute.txt").c_str());
+//        ifstream cin((folder + "attribute.txt").c_str());
+        ifstream cin((folder + "gplus_attribute.txt").c_str());
+//        ifstream cin((folder + "pokec_attribute.txt").c_str());
         ASSERT(!cin == false);
         string s;
         while (cin >> s)

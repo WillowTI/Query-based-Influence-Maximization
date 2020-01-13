@@ -58,20 +58,25 @@ public:
 
         for (int i = prevSize; i < R; i++)
         {
-            BuildHypergraphNode(random_number[i], i );
-        }
-
-
-        int totAddedElement = 0;
-        for (int i = prevSize; i < R; i++)
-        {
-            for (int t : hyperGT[i])
-            {
-                hyperG[t].emplace(i);
-                //hyperG.addElement(t, i);
-                totAddedElement++;
+            BuildHypergraphNode(random_number[i], i);
+            cout << i << " " << hyperGT[i].size() << endl;
+            for (auto x: hyperGT[i]) {
+                cout << x << " ";
             }
+            cout << endl;
         }
+
+
+//        int totAddedElement = 0;
+//        for (int i = prevSize; i < R; i++)
+//        {
+//            for (int t : hyperGT[i])
+//            {
+//                hyperG[t].emplace(i);
+//                //hyperG.addElement(t, i);
+//                totAddedElement++;
+//            }
+//        }
     }
 
     /*

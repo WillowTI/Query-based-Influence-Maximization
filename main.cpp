@@ -46,62 +46,120 @@ set<int> direct_pick(vector<int> degeneracy, set<int> subgraph, int budget);
 
 set<int> delete_and_maintain(vector<int> degeneracy, set<int> subgraph, int budget, InfGraph graph);
 
+void im_and_ij_core(int argn, char **argv);
+
+void print_index();
+
 vector<set<int>> hyperGT, hyperG;
-int node_size = 15229;
+int node_size = 107614;
 trie tree = trie(node_size);
 vector<int> degree;
 
 int main(int argn, char **argv) {
 //    OutputInfo info(argn, argv);
 //    Run(argn, argv);
-    int budget = 29;
-//    freopen("my_result.txt", "w", stdout);
-//    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
-//    set<int> subgraph, query;
-//    query.emplace(8899);
-//    query.emplace(9994);
-//    for (int i = 0; i < node_size; i++) {
-//        subgraph.emplace(i);
-//    }
-//    read_data_from_disk();
-//    build_trie_from_disk();
-//    graph.hyperG = hyperG;
-//    graph.hyperGT = hyperGT;
-//    set<int> non_query;
-//    vector<bool> sample_vis = vector<bool>(hyperGT.size());
-//    set_difference(subgraph.begin(), subgraph.end(), query.begin(), query.end()
-//            , inserter(non_query, non_query.begin()));
-//    for (int tmp_size = node_size / 2; tmp_size > budget; tmp_size /= 2) {
-//        cout << "-----------------" << endl;
-//        while (subgraph.size() > tmp_size) {
-//            int node = choose_least_influent_node(non_query);
-//            subgraph.erase(node);
-//            non_query.erase(node);
-//            trie_maintain(node);
-//        }
-//        cout << subgraph.size() << endl;
-//        for (int x: subgraph) {
-//            cout << x << " ";
+//    print_index();
+    InfGraph graph = InfGraph("nethept/", "nethept/gplus_processed.txt");\
+    cout << graph.n << " " << graph.m << endl;
+    Argument arg = getArg(argn, argv);
+    freopen("pattern_glus.txt", "w", stdout);
+    Imm::InfluenceMaximize(graph, arg);
+//    cout << graph.hyperGT.size() << endl;
+//    freopen("pattern_glus.txt", "w", stdout);
+//    cout << graph.hyperGT.size() << endl;
+//    for (auto x: graph.hyperGT) {
+//        cout << x.size() << endl;
+//        for (auto y: x) {
+//            cout << y << " ";
 //        }
 //        cout << endl;
-//        cout << graph.Influence_IC_RRSet(subgraph) << endl;
 //    }
-    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.inf");
-    Argument arg = getArg(argn, argv);
-    Imm::InfluenceMaximize(graph, arg);
-    set<int> subgraph;
-    freopen("my_result.txt", "r", stdin);
-    int nn;
-    cin >> nn;
-    for (int i = 0; i < nn; i++) {
-        int x;
-        cin >> x;
-        subgraph.emplace(x);
-    }
-    set<int> ans = delete_least_deg_nodes(subgraph, graph, 29);
-    cout << ans.size() << endl;
-    cout << graph.Influence_IC_RRSet(ans) << endl;
     return 0;
+}
+
+void print_index() {
+    freopen("index.txt", "w", stdout);
+    vector<pair<int, int>> id_and_deg;
+    read_data_from_disk();
+    build_trie_from_disk();
+    int cur_id = 0;
+    queue<trie_node*> q;
+    q.push(tree.root);
+    while (!q.empty()) {
+        trie_node* x = q.front();
+        q.pop();
+        x->id = cur_id++;
+        id_and_deg.emplace_back(make_pair(x->node_name, x->node_cnt));
+        for (auto xx: x->child) {
+            q.push(xx);
+        }
+    }
+    cout << id_and_deg.size() << endl;
+    for (auto x: id_and_deg) {
+        cout << x.first << " " << x.second << endl;
+    }
+
+    while(!q.empty()) {
+        q.pop();
+    }
+
+    vector<pair<int, int>> matrix;
+    q.push(tree.root);
+    while (!q.empty()) {
+        trie_node* x = q.front();
+        q.pop();
+        for (auto xx: x->child) {
+            q.push(xx);
+            matrix.emplace_back(make_pair(xx->id, x->id));
+        }
+    }
+
+    cout << matrix.size() << endl;
+    for (auto x: matrix) {
+        cout << x.first << " " << x.second << endl;
+    }
+}
+
+void im_and_ij_core(int argn, char **argv) {
+    int budget = 29;
+    InfGraph graph = InfGraph("nethept/", "nethept/graph_ic.txt");
+    set<int> subgraph, query;
+    query.emplace(8899);
+    query.emplace(9994);
+    for (int i = 0; i < node_size; i++) {
+        subgraph.emplace(i);
+    }
+    read_data_from_disk();
+    build_trie_from_disk();
+    graph.hyperG = hyperG;
+    graph.hyperGT = hyperGT;
+    set<int> non_query;
+    vector<bool> sample_vis = vector<bool>(hyperGT.size());
+    set_difference(subgraph.begin(), subgraph.end(), query.begin(), query.end()
+            , inserter(non_query, non_query.begin()));
+    double max_im = 0.0;
+    set<int> ans_node;
+    for (int tmp_size = node_size / 2; tmp_size > budget; tmp_size /= 2) {
+        while (subgraph.size() > tmp_size) {
+            int node = choose_least_influent_node(non_query);
+            subgraph.erase(node);
+            non_query.erase(node);
+            trie_maintain(node);
+        }
+        set<int> ans = delete_least_deg_nodes(subgraph, graph, budget);
+        double cur_influence = graph.Influence_IC_RRSet(ans);
+        if (cur_influence > max_im) {
+            max_im = cur_influence;
+            ans_node = ans;
+        }
+    }
+    freopen("my_result.txt", "w", stdout);
+    cout << ans_node.size() << endl;
+    for (int x: ans_node) {
+        cout << x << " ";
+    }
+    cout << endl;
+    cout << graph.Influence_IC_RRSet(ans_node) << endl;
 }
 
 set<int> delete_least_deg_nodes(set<int> subgraph, InfGraph graph, int budget) {
@@ -220,7 +278,7 @@ void Run(int argn, char **argv) {
     Argument arg = getArg(argn, argv);
     string graph_file;
     if (arg.model == "IC") {
-        graph_file = arg.dataset + "graph_ic.inf";
+        graph_file = arg.dataset + "graph_ic.txt";
     } else if (arg.model == "LT") {
         graph_file = arg.dataset + "graph_lt.inf";
     } else if (arg.model == "TR") {
